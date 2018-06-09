@@ -1,5 +1,5 @@
 ;; publish.el --- Publish org-mode project on Gitlab Pages
-;; Author: Rasmus
+;; Author: Sachin
 
 ;;; Commentary:
 ;; This script will convert the org-mode files in this directory into
@@ -19,7 +19,6 @@
 (require 'ox-publish)
 
 ;; setting to nil, avoids "Author: x" at the bottom
-(setq user-full-name nil)
 
 (setq org-export-with-section-numbers nil
       org-export-with-smart-quotes t
@@ -35,6 +34,17 @@
       org-html-validation-link nil
       org-html-doctype "html5")
 
+(defvar psachin-website-html-head
+  "<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<link rel='stylesheet' href='css/stylesheet.css' type='text/css'/>")
+
+(defvar psachin-website-html-postamble
+  "<div class='footer'>
+Copyright 2018 %a.<br>
+Last updated: %C. <br>
+Built with %c.
+</div>")
+
 (defvar site-attachments
   (regexp-opt '("jpg" "jpeg" "gif" "png" "svg"
                 "ico" "cur" "css" "js" "woff" "html" "pdf"))
@@ -42,7 +52,7 @@
 
 (setq org-publish-project-alist
       (list
-       (list "site-org"
+       (list "org"
              :base-directory "."
              :base-extension "org"
              :recursive t
@@ -52,17 +62,23 @@
              :auto-sitemap t
              :sitemap-filename "index.org"
              :sitemap-file-entry-format "%d *%t*"
-             :html-head-extra "<link rel=\"icon\" type=\"image/x-icon\" href=\"/favicon.ico\"/>"
              :sitemap-style 'list
-             :sitemap-sort-files 'anti-chronologically)
-       (list "site-static"
-             :base-directory "."
-             :exclude "public/"
-             :base-extension site-attachments
-             :publishing-directory "./public"
+             :sitemap-sort-files 'anti-chronologically
+	     :html-head psachin-website-html-head
+	     :html-postamble psachin-website-html-postamble)
+       (list "css"
+             :base-directory "./css"
+             :base-extension "css"
+             :publishing-directory "./public/css"
              :publishing-function 'org-publish-attachment
              :recursive t)
-       (list "site" :components '("site-org"))))
+       (list "images"
+	     :base-directory "./images"
+             :base-extension site-attachments
+             :publishing-directory "./public/images"
+             :publishing-function 'org-publish-attachment
+             :recursive t)
+       (list "all" :components '("org" "css" "images"))))
 
 (provide 'publish)
 ;;; publish.el ends here

@@ -1,5 +1,5 @@
 #+title: Gitlab Pages and Org-mode
-#+author: Rasmus
+#+author: Sachin
 #+date: <2016-05-23 Mon>
 
 It's easy to publish org-mode pages via [[https://about.gitlab.com/gitlab-ci/][Gitab CI]] and [[https://pages.gitlab.io/][Pages]].

@@ -1,5 +1,5 @@
 #+title: Org-mode powered sites and blogs spotted in the wild
-#+author: Rasmus
+#+author: Sachin
 #+date: <2016-05-24 Tue>
 
 Here's some examples of pages generated using =ox-publish.el= and

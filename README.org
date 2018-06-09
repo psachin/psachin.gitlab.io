@@ -1,5 +1,5 @@
 #+title: Publishing org-mode projects on Gitlab Pages
-#+author: Rasmus
+#+author: Sachin
 #+date: <2016-05-23 Mon>
 
 Example [[http://orgmode.org][org-mode]] website using [[http://pages.gitlab.io/][GitLab Pages]].

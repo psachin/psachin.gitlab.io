@@ -1,6 +1,6 @@
 #+title: What is org-mode
-#+author: Rasmus
-#+date: <2016-05-21 Sat>
+#+author: Sachin
+#+date: <2018-05-21 Sat>
 
 On [[http://orgmode.org/][orgmode.org]], the description of org-mode is: 
 
