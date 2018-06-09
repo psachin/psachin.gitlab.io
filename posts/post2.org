@@ -6,5 +6,4 @@ It's easy to publish org-mode pages via [[https://about.gitlab.com/gitlab-ci/][G
 
 This project was published with the following =.gitlab-ci.yml=:
 
-#+INCLUDE: ".gitlab-ci.yml" src conf 
-
+#+INCLUDE: "../.gitlab-ci.yml" src conf

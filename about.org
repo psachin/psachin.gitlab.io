@@ -1,0 +1,9 @@
+Developer, FOSS enthusiast, & avid GNU Emacs user. My public key More
+information
+
+[[file:../../images/isitme.png]]
+
+I try not to be biased with any programming language or technology. I
+work on GNU/Linux and Free & Open Source Software for living. If you
+are passionate about GNU and Free Software like me, I encourage you to
+watch this YouTube video by Benjamin Mako Hill.
