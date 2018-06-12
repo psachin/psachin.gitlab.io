@@ -1,9 +1,124 @@
-Developer, FOSS enthusiast, & avid GNU Emacs user. My public key More
-information
+#+title: About
 
-[[file:../../images/isitme.png]]
+  #+ATTR_HTML: :class center no-border
+  [[file:../../images/about/isitme.png]]
 
-I try not to be biased with any programming language or technology. I
-work on GNU/Linux and Free & Open Source Software for living. If you
-are passionate about GNU and Free Software like me, I encourage you to
-watch this YouTube video by Benjamin Mako Hill.
+  Developer, FOSS enthusiast, & avid GNU Emacs user. [[http://pgp.mit.edu/pks/lookup?search=psachin&op=index][My public key]]
+
+** More information
+
+   #+ATTR_HTML: :class center no-border
+   [[file:../../images/about/rx_open_source.png]]
+
+   I try not to be biased with any programming language or technology.
+   I work on GNU/Linux and Free & Open Source Software for living. If
+   you are passionate about GNU and Free Software like me, I encourage
+   you to watch this [[https://www.youtube.com/watch?v=Er1pM9suxvE][YouTube video]] by Benjamin Mako Hill.
+
+** My work-space
+
+   #+ATTR_HTML: :class center no-border
+   [[file:../../images/about/computers-300px.png]]
+
+** @Home
+
+   My current system is [[https://plus.google.com/photos/photo/113870692888444102463/6355020254313100738?icm=false&sqid=104043194426129544738&ssid=2c4bb3f4-0eed-4d83-9385-eb6e51a01dc9][Lenovo G505s]] with AMD A8 Quad-core processor
+   and 8 Gigs of RAM running Slackware 14.1(I always prefer [[https://github.com/psachin/bash_scripts/blob/master/build_my_kernel.sh][latest
+   kernel]]. I usually work on this system.
+
+   My other system includes /Acer emachines eM350/ netbook running
+   [[https://manjaro.org/][Manjaro Linux]] an independently developed [[https://www.archlinux.org/][Arch Linux]]. I use it as a
+   hotspot using [[https://github.com/psachin/hotspotd][hotspotd]]. +I also have an old desktop with AMD Athlon with 2 Gigs of RAM running Slackware again!. The system's storage
+   is shared via NFS across my home network, basically this is my NFS server.+
+
+   Apart from this I had a very old Intel Pentium II Machine with
+   350MHz processor and 64MB of RAM running Vector Linux. +I wonder
+   how this machine [[https://plus.google.com/+Sachinp/posts/UMCp3L6NiAn?pid=5864821069617337218&oid=113870692888444102463][still runs?]]+
+
+   Most of my home network and Internet connection is managed by
+   D-LINK DIR-615E wireless router flashed with custom
+   [[https://openwrt.org/][OpenWRT(barrier-breaker)]]. This is my backup(and tiny) Linux system
+   with minimal shell and =opkg= package manager.
+
+** @Work
+
+   For work, I have Lenovo Thinkpad T440p running [[https://getfedora.org/][Fedora]].
+
+** Tools I use
+
+   #+ATTR_HTML: :class center no-border
+   [[file:../../images/about/tools-server-small.png]]
+
+   [[https://www.gnu.org/software/emacs/][GNU Emacs]] and a terminal are the least I need.
+
+   I prefer to use latest Emacs version. My Emacs is heavily
+   [[https://gitlab.com/psachin/emacs.d][configured]] for all my needs from programming(Python, Django, C,
+   elisp, Ruby, shell etc.), blogs & note taking[[https://orgmode.org/][(org-mode)]], eshell,
+   tramp, magit etc. Recently I fell in love with =M-x
+   emacs-timemachine=. Terminal is occasionally needed to keep some
+   front-end jobs running.
+
+   [[http://git-scm.com][Git]] is something I can't live without. I use Git to keep track of
+   my personal notes, blogs, and all the projects. =magit= is a
+   savior. It helps me a lot to learn insights of Git.
+
+   I prefer [[https://www.emacswiki.org/emacs/GnusTutorial][Gnus]] over [[http://www.mutt.org/][mutt]] to manage mails.
+
+** More..
+
+   I find programming in =elisp= relaxing when I'm bored with Python
+   and friends. Though not much but I do write helper functions and
+   share it on [[http://sachin.pythonanywhere.com][sachin.pythonanywhere.com]].
+
+** Blogs
+
+   #+ATTR_HTML: :class center no-border
+   [[file:../../images/about/Anonymous-pen-pencil-small.png]]
+
+   For raw/old posts please visit [[https://github.com/psachin/blog-posts][blog-posts]]. Most of them are written
+   in [[http://orgmode.org/][org-mode]]. I now use [[https://jekyllrb.com/][jekyll]] to publish my blogs(Source [[https://github.com/psachin/psachin.github.io][here]]).
+   Jekyll uses markdown which I don't like much. I miss org-mode to
+   post blogs.
+
+** Presentations/Slides
+
+   All my presentation slides are pushed to
+   [[https://github.com/psachin/slides][https://github.com/psachin/slides]]. With few exceptions(Online):
+
+   - Red Hat forum: [[http://redhat.slides.com/psachin/rh-forum-2016][2016]], [[https://github.com/psachin/slides/blob/master/RH-forum/RedHatCloudForms-2017-Sachin.pdf][2017]]
+   - [[http://psachin.github.io/.emacs.d/][GNU Hackers Meeting-2016]]: Manage GNU Emacs configuration using
+     [[http://orgmode.org/worg/org-contrib/babel/intro.html][literate programming]].
+   - [[http://redhat.slides.com/psachin/rhosp-swift-2016][OpenStack Swift Object Storage]]: Session covered Swift object
+     storage architecture and demonstrated Object versioning in Swift.
+   - [[http://psachin.github.io/py-starwars/][py-starwars]]: Introductory talk on Python programming language.
+
+** Articles
+*** Published on [[https://opensource.com/][opensource.com]]
+
+       - [[https://opensource.com/article/18/5/how-kill-process-stop-program-linux][How to kill a process or stop a program in Linux]]
+       - [[https://opensource.com/article/18/4/how-create-latex-documents-emacs][How to create LaTeX documents with Emacs]]
+       - [[https://opensource.com/life/16/2/intro-to-emacs][Getting started with Emacs text editor]]
+
+*** Other web portals
+
+    - [[http://www.csi-india.org/communications/CSIC%20July%202013.pdf][GNU/Linux on Aakash]]: An article published in CSI
+      communications(July 2013) on [[http://aakashlabs.org/gnu/][Aakash]] during my work at Indian
+      Institute of Technology Bombay.
+
+    - [[http://www.linuxquestions.org/linux/answers/hardware/configuring_huaweiec152_modem][Configuring Huawei-EC152 modem]]: My very first article appeared
+      on [[https://www.linuxquestions.org/][linuxquestions.org]]. I just started using GNU/Linux that time
+      and USB-modeswitch was also quite new.
+
+** IRC
+
+   #+ATTR_HTML: :class center no-border
+   [[file:../../images/about/skogskanten-300px.png]]
+
+   =psachin@{RedHat, freenode, OFTC, GIMPNet}=
+
+** Social
+
+   [[http://www.fsf.org/fb][Mark Zuckerberg is TIME Magazine's Person of the Year? Where's the "dislike" button?]]
+
+   #+ATTR_HTML: :class center no-border
+   http://static.fsf.org/nosvn/no-facebook-me.png

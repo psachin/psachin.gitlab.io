@@ -5,7 +5,7 @@ body {
   background: #fff;
   color: #666;
   margin: 0;
-  border-top: 3px solid #d95c3a;
+  border-top: 3px solid #1692cc;
 }
 @media (max-width: 799px) {
   body {
@@ -42,7 +42,7 @@ body h1 {
   margin-top: 40px;
 }
 body h1.title {
-  display: none;
+  display: inline;
 }
 body h2 {
   margin-top: 60px;
@@ -59,7 +59,7 @@ body p {
 }
 body a {
   text-decoration: none;
-  color: #d95c3a;
+  color: #1692cc;
 }
 body a:hover {
   color: #91351c;
