@@ -91,6 +91,25 @@ Built with %c.
                 "ico" "cur" "css" "js" "woff" "html" "pdf"))
   "File types that are published as static files.")
 
+(defun psachin-org-sitemap-format-entry (entry style project)
+  "Format posts with author and published data.
+
+ENTRY: file-name
+STYLE:
+PROJECT: `posts in this case."
+  (cond ((not (directory-name-p entry))
+         (format "*[[file:%s][%s]]*
+
+                   by %s, published on %s"
+		 entry
+		 (org-publish-find-title entry project)
+		 (car (org-publish-find-property entry :author project))
+		 (format-time-string "%b %d, %Y"
+				     (org-publish-find-date entry project))))
+        ((eq style 'tree) (file-name-nondirectory (directory-file-name entry)))
+        (t entry)))
+
+
 (setq org-publish-project-alist
       `(("posts"
          :base-directory "posts"
@@ -98,11 +117,12 @@ Built with %c.
          :recursive t
          :publishing-function org-html-publish-to-html
          :publishing-directory "./public"
-         :exclude ,(regexp-opt '("README" "draft"))
+         :exclude ,(regexp-opt '("README.org" "draft"))
          :auto-sitemap t
          :sitemap-filename "index.org"
 	 :sitemap-title "Sachin's homepage"
 	 :sitemap-file-entry-format "%d *%t*"
+	 :sitemap-format-entry psachin-org-sitemap-format-entry
          :sitemap-style list
          :sitemap-sort-files anti-chronologically
 	 :html-head ,psachin-website-html-head
@@ -111,7 +131,7 @@ Built with %c.
        ("about"
         :base-directory "."
         :base-extension "org"
-	;;:exclude ,(regexp-opt '("README" "draft"))
+	:exclude ,(regexp-opt '("README.org" "draft"))
         :recursive nil
         :publishing-function org-html-publish-to-html
         :publishing-directory "./public/about"
