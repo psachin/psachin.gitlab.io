@@ -47,7 +47,7 @@
   "<div class='intro'>
 <img src='/images/about/profile.png' alt='Sachin Patil' class='no-border'/>
 <h1>Sachin</h1>
-<p>Free software deeloper & Emacser</p>
+<p>Free software developer & Emacser</p>
 </div>
 
 <div class='nav'>
@@ -56,7 +56,6 @@
 <li><a href='http://gitlab.com/psachin'>GitLab</a>.</li>
 <li><a href='https://plus.google.com/u/0/+Sachinp'>Google Plus</a>.</li>
 <li><a href='https://youtube.com/user/iclcoolsterU'>YouTube</a>.</li>
-<li><a href='mailto:iclcoolster@gmail.com'>Contact</a>.</li>
 <li><a href='/about/about.html'>About</a>.</li>
 <li><a href='/index.xml'>RSS feed</a></li>
 </ul>
@@ -81,7 +80,8 @@
 
 (defvar psachin-website-html-postamble
   "<div class='footer'>
-Copyright © 2012-2018 Sachin Patil.<br>
+Copyright © 2012-2018 Sachin Patil. <br>
+Adapted from https://nicolas.petton.f r<br>
 Last updated: %C. <br>
 Built with %c.
 </div>")
@@ -99,8 +99,7 @@ STYLE:
 PROJECT: `posts in this case."
   (cond ((not (directory-name-p entry))
          (format "*[[file:%s][%s]]*
-
-                   by %s, published on %s"
+                  #+HTML: <p class='pubdate'>by %s, %s</p>"
 		 entry
 		 (org-publish-find-title entry project)
 		 (car (org-publish-find-property entry :author project))
@@ -132,6 +131,7 @@ PROJECT: `posts in this case."
         :base-directory "."
         :base-extension "org"
 	:exclude ,(regexp-opt '("README.org" "draft"))
+	:index-filename "about.org"
         :recursive nil
         :publishing-function org-html-publish-to-html
         :publishing-directory "./public/about"

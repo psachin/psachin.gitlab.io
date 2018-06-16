@@ -3,3 +3,7 @@ body img.center {
     margin-right: auto;
     display: block;
 }
+body .pubdate {
+    border-bottom: none;
+    text-align:left;
+}

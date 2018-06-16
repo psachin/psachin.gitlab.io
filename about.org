@@ -5,15 +5,13 @@
 
   Developer, FOSS enthusiast, & avid GNU Emacs user. [[http://pgp.mit.edu/pks/lookup?search=psachin&op=index][My public key]]
 
-** More information
+  #+ATTR_HTML: :class center no-border
+  [[file:../../images/about/rx_open_source.png]]
 
-   #+ATTR_HTML: :class center no-border
-   [[file:../../images/about/rx_open_source.png]]
-
-   I try not to be biased with any programming language or technology.
-   I work on GNU/Linux and Free & Open Source Software for living. If
-   you are passionate about GNU and Free Software like me, I encourage
-   you to watch this [[https://www.youtube.com/watch?v=Er1pM9suxvE][YouTube video]] by Benjamin Mako Hill.
+  I try not to be biased with any programming language or technology.
+  I work on GNU/Linux and Free & Open Source Software for living. If
+  you are passionate about GNU and Free Software like me, I encourage
+  you to watch this [[https://www.youtube.com/watch?v=Er1pM9suxvE][YouTube video]] by Benjamin Mako Hill.
 
 ** My work-space
 
@@ -27,9 +25,11 @@
    kernel]]. I usually work on this system.
 
    My other system includes /Acer emachines eM350/ netbook running
-   [[https://manjaro.org/][Manjaro Linux]] an independently developed [[https://www.archlinux.org/][Arch Linux]]. I use it as a
-   hotspot using [[https://github.com/psachin/hotspotd][hotspotd]]. +I also have an old desktop with AMD Athlon with 2 Gigs of RAM running Slackware again!. The system's storage
-   is shared via NFS across my home network, basically this is my NFS server.+
+   [[https://manjaro.org/][Manjaro Linux]] an independently developed [[https://www.archlinux.org/][Arch Linux]]. I've [[http://awesomewm.org][Awesome
+   window manager]] on it. I use it as a hotspot using [[https://github.com/psachin/hotspotd][hotspotd]]. +I also
+   have an old desktop with AMD Athlon with 2 Gigs of RAM running+
+   +Slackware again!. The system's storage is shared via NFS across my
+   home network, basically this is my NFS server.+
 
    Apart from this I had a very old Intel Pentium II Machine with
    350MHz processor and 64MB of RAM running Vector Linux. +I wonder
@@ -77,8 +77,8 @@
 
    For raw/old posts please visit [[https://github.com/psachin/blog-posts][blog-posts]]. Most of them are written
    in [[http://orgmode.org/][org-mode]]. I now use [[https://jekyllrb.com/][jekyll]] to publish my blogs(Source [[https://github.com/psachin/psachin.github.io][here]]).
-   Jekyll uses markdown which I don't like much. I miss org-mode to
-   post blogs.
+   Jekyll uses markdown which I don't like much. +I miss org-mode to
+   post blogs.+ This website is [[https://gitlab.com/psachin/psachin.gitlab.io][entirely published]] using org-mode.
 
 ** Presentations/Slides
 
@@ -109,12 +109,13 @@
       on [[https://www.linuxquestions.org/][linuxquestions.org]]. I just started using GNU/Linux that time
       and USB-modeswitch was also quite new.
 
-** IRC
+** Contact
 
    #+ATTR_HTML: :class center no-border
    [[file:../../images/about/skogskanten-300px.png]]
 
-   =psachin@{RedHat, freenode, OFTC, GIMPNet}=
+*** Email: [[mailto:iclcoolster@gmail.com][iclcoolster@gmail.com]]
+*** IRC: =psachin@{RedHat, freenode, OFTC, GIMPNet}=
 
 ** Social
 
