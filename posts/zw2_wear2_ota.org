@@ -1,0 +1,71 @@
+#+title: ASUS ZenWatch2 update to Android Wear 2.0
+#+date: <2017-10-11>
+#+keywords: asus, zenwatch2, ota, sideload, android-wear2
+#+setupfile: ../org-templates/post.org
+
+Update ASUS ZenWatch2 to Android Wear 2.0
+
+The post assumes that [[https://developer.android.com/studio/command-line/adb.html][adb]] is installed on a system. On [[https://getfedora.org/][Fedora]] it comes
+with =android-tools= package and can be installed using
+
+#+BEGIN_SRC bash
+  sudo dnf install android-tools -y
+#+END_SRC
+
+*** Setup ASUS ZenWatch2 debug mode
+
+    Make sure ADB debugging is enable under **Settings -> Developer
+    options**. Enable **Developer options** by tapping *Build number*
+    5 times under **Settings -> System -> About** on watch.
+
+    On the system make sure you are able to access ZenWatch shell
+    using =adb shell=. You may have to add [[http://www.reactivated.net/writing_udev_rules.html][udev]] rules as below
+
+    #+BEGIN_SRC bash
+      # file: /etc/udev/rules.d/51-android.rules
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0b05", MODE="0666", GROUP="plugdev"
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0b05", MODE="7770", GROUP="plugdev"
+    #+END_SRC
+
+*** Sideload OTA package
+    - Download OTA from [[https://android.googleapis.com/packages/ota-api/asus_sparrow_sparrow/f0095b7e9162d37af8f00140aea38d7922887a0a.zip][here]] and connect the watch to system via USB
+      and run
+
+      #+BEGIN_SRC bash
+        adb reboot recovery
+      #+END_SRC
+
+      watch should boot into recovery mode.
+
+    - Swipe down to get menu options. Select **Apply update from ADB**
+      and swift right. The watch is now ready to accept sideload
+
+      #+CAPTION: ADB sideload: Verifying package
+      #+ATTR_HTML: :alt ADB sideload: Verifying package :title ADB sideload: Verifying package
+      #+ATTR_HTML: :width 100% :height
+      [[file:images/posts/zw2wear2ota/zw2_adb_sideload-1.png]]
+
+    - On the system run
+      #+BEGIN_SRC bash
+        adb sideload f0095b7e9162d37af8f00140aea38d7922887a0a.zip
+      #+END_SRC
+
+      and you should see something like below on watch. Wait till the
+      upload is complete.
+
+      #+CAPTION: ADB sideload: Updating package
+      #+ATTR_HTML: :alt ADB sideload: Updating package :title ADB sideload: Updating package
+      #+ATTR_HTML: :width 100% :height
+      [[file:images/posts/zw2wear2ota/zw2_adb_sideload-2.png]]
+
+      Finally on system you should see
+      #+BEGIN_SRC bash
+	loading: 'f0095b7e9162d37af8f00140aea38d7922887a0a.zip'...
+	connecting...
+	Total xfer: 2.01x
+      #+END_SRC
+
+      Once upload is complete select **Reboot** from the menu and
+      swipe right. Complete setup should take around 15 minutes
+
+*** References: [[https://www.reddit.com/r/AndroidWear/comments/6o6niv/zenwatch_2_w501q_android_wear_20_update_and_how/][https://www.reddit.com]]

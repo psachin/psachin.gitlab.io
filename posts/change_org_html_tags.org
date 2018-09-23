@@ -1,0 +1,39 @@
+#+title: Change default org-mode HTML tags
+#+author: Sachin
+#+date: <2014-02-26>
+
+
+This brief post is result of a [[https://plus.google.com/110929313922902668537/posts/8FLNDvKc3sp][question]] posted by Icaro Perseo. He
+used org-mode for blogging using [[https://github.com/punchagan/org2blog][org2blog]], but was not satisfied with
+default HTML tags used by org-mode.
+
+He wanted to change the default emphasis on text when it is converted
+to HTML in org-mode. By default during conversion from org to HTML,
+
+=/text/= converts to =<i>text</i>=
+
+and
+
+=*text*= converts to =<b>text</b>=
+
+Instead, he wanted to use =<em>= and =<strong>= instead of =<i>= and
+=<b>=.
+
+Well, everything can be customized from Emacs and Icaro's solution to
+his problem lies in the customization of group `org-appearance`. To
+customize this group, type
+#+BEGIN_SRC sh
+  M-x customize-group org-appearance
+#+END_SRC
+
+and search for the variable =Org Emphasis Alist=
+
+   #+CAPTION: Variable: Org Emphasis Alist
+   #+ATTR_HTML: :alt Variable: Org Emphasis Alist :title Variable: Org Emphasis Alist :align center
+   #+ATTR_HTML: :width :height
+   [[file:images/posts/change_org_html_tags/OrglEmphasisAlist.png]]
+
+Now change the value of **HTML start tag** and **HTML end tag** to
+whatever you want.
+
+/Update - March 1, 2016: This solution is NOT valid for Emacs-pretest version(25.0.91.1)/

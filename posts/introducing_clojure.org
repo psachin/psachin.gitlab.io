@@ -1,0 +1,290 @@
+#+title: Introducing Clojure
+#+author: Sachin
+#+date: <2013-10-18>
+
+**Clojure** has been around for couple of years now. It has been
+recognized for its features like functional programming, elegance,
+lisp and JMV support. Unlike many popular dynamic languages, it is
+fast and written to take advantages of all optimizations possible with
+modern JVMs.
+
+I personally like clojure because it is lisp. Lisp has very tiny
+language core with almost no syntax and has a powerful macro support.
+With this brief introduction lets start setting up Clojure.
+
+** lein
+   :PROPERTIES:
+   :ID:       48cf41d1-5862-48fe-b84b-efca8c8d4685
+   :END:
+
+   Before we start programming in Clojure, lets setup *leiningen*.
+   Leiningen is for automatic Clojure project setup which will create
+   all necessary file required for any Clojure project.
+
+   - Download **lein** binary file from [[https://raw.github.com/technomancy/leiningen/stable/bin/lein][GitHub]] and copy it into the
+     =~/bin/= directory.
+     #+BEGIN_SRC sh
+       wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
+     #+END_SRC
+
+   - Add =~/bin= PATH in the =~/.bashrc= file
+     #+BEGIN_SRC sh
+       export PATH=~/bin:$PATH
+     #+END_SRC
+
+   - Make the binary executable
+     #+BEGIN_SRC sh
+       chmod a+x ~/bin/lein
+     #+END_SRC
+
+   - Finally run the self installer
+     #+BEGIN_SRC sh
+       lein
+     #+END_SRC
+
+*** Lein configuration
+    :PROPERTIES:
+    :ID:       a0d30329-1216-4ce4-ba2d-80cff4b45855
+    :END:
+    - Lein version-2 uses the idea of *profiles*. The location of file is
+      =~/.lein/profiles.clj=. Create this file if it does not exist.
+
+    - A sample =profiles.clj= file looks like below
+      #+BEGIN_SRC lisp
+	{:user {:plugins [[lein-difftest "1.3.8"]
+			  [lein-marginalia "0.7.1"]
+			  [lein-pprint "1.1.1"]
+			  [lein-swank "1.4.5"]
+			  [lein-exec "0.3.0"]
+			  [lein-ring "0.8.7"]]}}
+      #+END_SRC
+
+
+    You can see all the required libraries which are default to all
+    Clojure projects.
+
+** Upgrade
+   :PROPERTIES:
+   :ID:       3b4670e9-2f8e-47f9-82d7-68cb7538c158
+   :END:
+   - To upgrade lein to its latest stable version use,
+     #+BEGIN_SRC sh
+       lein upgrade
+     #+END_SRC
+
+** Project/App
+   :PROPERTIES:
+   :ID:       7c9555a4-bd7f-477d-8531-b3fffee4873c
+   :END:
+
+*** Create a project or an app.
+    :PROPERTIES:
+    :ID:       0d712331-cf63-489c-ac0b-7e28376e3a53
+    :END:
+    - Create a project using
+      #+BEGIN_SRC sh
+        lein new my-project
+      #+END_SRC
+
+    - Create an app using
+      #+BEGIN_SRC sh
+        lein new app my-stuff
+      #+END_SRC
+
+    - Create a noir project(=noir= is a plugin for web framework)
+      #+BEGIN_SRC sh
+        lein new noir my-web-project
+      #+END_SRC
+
+*** REPL
+    :PROPERTIES:
+    :ID:       21a2d7c1-3f4b-4496-ac5f-2aadd2f21883
+    :END:
+
+    REPL(Read-Eval-Print-Loop) can be your excellent interpreter or
+    debugger while you work on a Clojure project. You can run REPL
+    once you create a project.
+
+  - Lets say the project name is =my-stuff=, go to project directory
+    and run REPL using
+    #+BEGIN_SRC sh
+      cd my-stuff
+      lein
+    #+END_SRC
+
+  - Inside =repl= prompt, run =(-main)=
+    #+BEGIN_SRC sh
+      my-stuff.core=> (-main)
+    #+END_SRC
+
+  - If you have done some change in a code, reload it
+    #+BEGIN_SRC sh
+      my-stuff.core=> (require 'my-stuff.core :reload)
+    #+END_SRC
+
+  - Run a program using =lein= (Outside the REPL prompt.)
+    #+BEGIN_SRC sh
+      lein run
+    #+END_SRC
+
+  - If you are happy with your app, package it into an executable
+    =jar=
+    #+BEGIN_SRC sh
+      lein uberjar
+    #+END_SRC
+
+  - And run =jar= file using
+    #+BEGIN_SRC sh
+      java -jar target/my-stuff-0.1.0-standalone.jar
+    #+END_SRC
+
+*** Library
+    :PROPERTIES:
+    :ID:       d9bc84e7-46cf-4e71-8046-200590e90c5e
+    :END:
+    A Clojure library can be created in a same way.
+
+    Create a library using
+    #+BEGIN_SRC sh
+      lein new default my-lib
+    #+END_SRC
+
+**** REPL
+     :PROPERTIES:
+     :ID:       2f0155c9-d839-40ff-8995-fcc2101daa77
+     :END:
+     #+BEGIN_SRC sh
+       lein repl
+       ...
+     #+END_SRC
+
+     Simple queries can be performed inside a REPL
+     #+BEGIN_SRC sh
+       user=> (require 'my-lib.core)
+       nil
+       user=> (ns my-lib.core)
+       nil
+       my-lib.core=> (my-func 3)
+       9
+     #+END_SRC
+
+*** Dependencies
+    :PROPERTIES:
+    :ID:       854f6062-939b-4fb3-8084-285a81fff6b3
+    :END:
+    - Add project dependencies to =~/.lein/profiles.clj= or
+      =your-app/project.clj=
+    - Below is my sample =profiles.clj= file
+      #+BEGIN_SRC lisp
+	{:user {:plugins [[lein-difftest "1.3.8"]
+			  [lein-marginalia "0.7.1"]
+			  [lein-pprint "1.1.1"]
+			  [lein-swank "1.4.5"]
+			  [lein-exec "0.3.0"]
+			  [lein-ring "0.8.7"]]}}
+      #+END_SRC
+    - Or you can have it specific to the project
+      #+BEGIN_SRC lisp
+	(defproject perfect-clojure "0.1.0-SNAPSHOT"
+	  :description "A simple clojure app to test my environment"
+	  :url "<http://clojuremadesimple.co.uk>"
+	  :license {:name "Eclipse Public License"
+	  :url "<http://google.co.uk>"}
+	  :dependencies
+	  :dev-dependencies [[midje "1.4.0"]
+			     [autodoc "0.9.0"]]
+	  :plugins
+	  )
+      #+END_SRC
+    - And setup dependencies using
+      #+BEGIN_SRC sh
+        lein deps
+      #+END_SRC
+
+*** Compile
+    :PROPERTIES:
+    :ID:       0ed5f9d2-0b8e-4050-a58a-7c78642c9a9a
+    :END:
+    Compile your project in to an executable =jar= using
+    #+BEGIN_SRC sh
+      lein uberjar
+    #+END_SRC
+
+*** Run
+    :PROPERTIES:
+    :ID:       38e1c3db-a307-4c35-8eab-6abac6f86102
+    :END:
+    - Run the standalone jar using
+      #+BEGIN_SRC sh
+        java -jar target/my-stuff-0.1.0-SNAPSHOT-standalone.jar
+      #+END_SRC
+
+**** Connecting to REPL server
+     :PROPERTIES:
+     :ID:       13dbbfcf-7290-4196-9fc1-69e5f0fee2ae
+     :END:
+     - A new REPL server is started at <http://localhost:PORT> when
+       you invoke
+       #+BEGIN_SRC sh
+         lein repl
+       #+END_SRC
+
+       from a project directory.
+
+     - You can now connect to existing server using
+       #+BEGIN_SRC sh
+         lein repl :connect nrepl://localhost:PORT
+       #+END_SRC
+
+     - for example
+       #+BEGIN_SRC sh
+         lein repl :connect nrepl://127.0.0.1:37451
+       #+END_SRC
+
+*** Generate documentation
+    :PROPERTIES:
+    :ID:       085fb66b-fba4-4939-84ae-f008edd7b9e7
+    :END:
+    - Install =marginalia=
+      #+BEGIN_SRC sh
+	cd ~/.lein
+	touch profiles.clj
+      #+END_SRC
+
+    - Add following line to =profiles.clj= (Your =marginalia= version
+      may be different)
+      #+BEGIN_SRC sh
+        {:user {:plugins }}
+      #+END_SRC
+
+    - Then, in your project
+      #+BEGIN_SRC sh
+        cd *path/to/project*
+      #+END_SRC
+
+    - Install using
+      #+BEGIN_SRC sh
+        lein deps
+      #+END_SRC
+
+    - Generate docs
+      #+BEGIN_SRC sh
+        lein marg
+      #+END_SRC
+
+    - Browse docs in a web-browse file://path/to/my-proj/docs/uberdoc.html
+
+
+** Next (Updated on 03 Feb, 2016)
+   :PROPERTIES:
+   :ID:       306d62f2-8f90-480b-a539-d13d2609cf81
+   :END:
+   - Checkout this post on [[https://www.twilio.com/blog/2016/02/getting-started-with-clojure.html][Sending an SMS]] using Clojure.
+   - [[https://aphyr.com/tags/Clojure-from-the-ground-up][Clojure from the ground up]] blog post series by Kyle Kingsbury.
+
+** References
+   :PROPERTIES:
+   :ID:       0a0b345c-15d9-4d2f-bb33-647326a38e86
+   :END:
+   - [[http://www.unexpected-vortices.com/clojure/brief-beginners-guide/][http://www.unexpected-vortices.com/clojure/brief-beginners-guide/]]
+   - [[http://clojuremadesimple.co.uk/][http://clojuremadesimple.co.uk/]]

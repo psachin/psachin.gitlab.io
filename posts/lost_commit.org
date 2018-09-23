@@ -1,0 +1,144 @@
+#+title: Lost commit
+#+date: <2016-01-04>
+#+keywords: git, commit, remote
+#+setupfile: ../org-templates/post.org
+
+Where's my commit after I did =git commit --amend=?
+
+=git commit --amend= comes handy if one wants changes in a previous
+commit or simply want to change a commit message but this results into
+push errors and an extra over-head of a merge-commit. In this post,
+lets go through the process.
+
+Say I have three commit in my master branch but I'm not satisfied with
+the last commit message.
+
+#+CAPTION: Commit logs before amend
+#+ATTR_HTML: :alt Commit logs before amend :title Commit logs before amend
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/git_log_before_amend.png]]
+
+I changed the commit message using the command.
+#+BEGIN_SRC bash
+  git commit --amend -m 'Attack plan-2'
+#+END_SRC
+
+#+CAPTION: Amend last commit message
+#+ATTR_HTML: :alt Amend last commit message :title Amend last commit message
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/commit_amend.png]]
+
+and tried to push the changes. Soon I'll encountered an error(see
+image below). Something is not right. The remote server is not
+accepting my changes. It says my local commits are not in-sync with
+the remote commits. But what did I do? I just changed a commit
+message.
+
+#+CAPTION: 'git push' throws error
+#+ATTR_HTML: :alt 'git push' throws error :title 'git push' throws error
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/git_push_error.png]]
+
+If I check the commit logs(see image below), I see my updated message.
+This was expected. But what exactly went wrong?
+
+#+CAPTION: Commit logs after amend
+#+ATTR_HTML: :alt Commit logs after amend :title Commit logs after amend
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/git_log_after_amend.png]]
+
+If I closely examine the commit hash of HEAD before and after the
+amendment, I can see it has changed.
+
+- Before amend: =36e2d601c446=
+- After amend : =14c15632fa9d=
+
+Which clearly means that *amend* changed the hash and now my local and
+remote differs. My remote still has that old hash(with old commit
+message) but HEAD's commit hash has changed.
+
+This also means that I lost my old hash and that is now over-written
+by a **brand-new** commit.
+
+Below commands can be really handy:
+
+- Check local commit
+  #+BEGIN_SRC bash
+    git log
+  #+END_SRC
+
+- Check remote commit
+  #+BEGIN_SRC bash
+    git log origin
+  #+END_SRC
+
+- View both local and remote(origin) logs all-together
+  #+BEGIN_SRC bash
+    git log origin master
+  #+END_SRC
+
+With the last command, I can see local commits plus the lost
+commit(which still exits on the remote). Below figure can explain the
+scenario in a better way.
+
+#+CAPTION: Lost(not visible) commit(in green) after amend
+#+ATTR_HTML: :alt Lost(not visible) commit(in green) after amend :title Lost(not visible) commit(in green) after amend
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/lost_commit.png]]
+
+In order to push, I first need to pull that lost commit from remote. A
+simple
+#+BEGIN_SRC bash
+  git pull
+#+END_SRC
+
+or
+
+#+BEGIN_SRC bash
+  git pull origin master
+#+END_SRC
+
+should do the trick(image below).
+
+#+CAPTION: Pull(and merge) commits from origin
+#+ATTR_HTML: :alt Pull(and merge) commits from origin :title Pull(and merge) commits from origin
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/git_pull_origin_master.png]]
+
+If I check the commit logs, I see my lost commit is in place just
+below the *changed message* commit.
+
+#+CAPTION: Commit logs after pull
+#+ATTR_HTML: :alt Commit logs after pull :title Commit logs after pull
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/git_log_after_pull.png]]
+
+But there's one extra commit, a **merge-commit** as HEAD(see figure
+below)
+
+#+CAPTION: An extra merge-commit(in blue) on top of amended commit
+#+ATTR_HTML: :alt An extra merge-commit(in blue) on top of amended commit :title An extra merge-commit(in blue) on top of amended commit
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/commits_after_pull.png]]
+
+Now I can safely push to the remote as the *lost commit* exist in my
+local commit log.
+
+#+CAPTION: Push merged commits
+#+ATTR_HTML: :alt Push merged commits :title Push merged commits
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/git_push_origin_master.png]]
+
+Which should sync local & remote repos(figure below)
+
+#+CAPTION: Local & remote commit are in-sync now
+#+ATTR_HTML: :alt Local & remote commit are in-sync now :title Local & remote commit are in-sync now
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/lost_commit/commits_after_push.png]]
+
+/PS/: If you want to avoid a merge-commit, Git provides an excellent
+way to achieve it via [[https://git-scm.com/docs/git-rebase][git-rebase]]. What it typically does is it
+rolls-up all the latest commits on the top of all the previous
+commits. Behind the curtains =git-rebase= completely re-writes the
+history. As the matter of fact one should never rebase commits that
+have been pushed to a public.

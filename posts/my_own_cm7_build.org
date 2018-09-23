@@ -1,0 +1,25 @@
+#+title: My own build of Cyanogenmod 7 for ZTE Blade
+#+author: Sachin
+#+date: <2014-04-19>
+
+Altough I use Cyanogenmod-9 on ZTE Blade(Orange San Francisco),
+Cyanogenmod-7 works best on ZTE Blade because of its low RAM(176MB in
+total). I decided to compile my own build rather than using someone
+else ROM. It looks great and everything works!
+
+#+CAPTION: Lock screen after first boot
+#+ATTR_HTML: :alt Lock screen after first boot :title Lock screen after first boot
+#+ATTR_HTML: :width 70% :height
+[[file:images/posts/my_own_cm7_build/zteBlade-lockscreen-cm7.png]]
+
+#+CAPTION: Default Home screen
+#+ATTR_HTML: :alt Default Home screen :title Default Home screen
+#+ATTR_HTML: :width 70% :height
+[[file:images/posts/my_own_cm7_build/zteBlade-homescreen-cm7.png]]
+
+#+CAPTION: About phone page. One can clearly see Build date and Mod version.
+#+ATTR_HTML: :alt About page :title About page
+#+ATTR_HTML: :width 70% :height
+[[file:images/posts/my_own_cm7_build/zteBlade-aboutPhone-cm7.png]]
+
+Download the ROM from Google drive: [[https://drive.google.com/folderview?id=0B-PZvjWWRSpQd3dwTUZVNVM4SVE&usp=sharing][cm-7-20140417-UNOFFICIAL-blade.zip]]

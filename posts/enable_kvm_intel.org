@@ -1,0 +1,30 @@
+#+title: Enable Kernel virtualization on Intel/AMD arch
+#+author: Sachin
+#+date: <2012-08-23>
+
+Enable *Kernel-based Virtual Machine* on your system.
+
+To check if the hardware supports Virtualizaton Technology(VT), open
+the terminal and type
+#+BEGIN_SRC sh
+  egrep '(vmx|svm)' /proc/cpuinfo
+#+END_SRC
+
+If you can see a output, means your hardware supports VT.
+
+Next step is to load kernel modules(Irrespective of your processor
+type)
+#+BEGIN_SRC sh
+  sudo modprobe kvm_intel
+  sudo modprobe kvm
+#+END_SRC
+
+*** Note
+    :PROPERTIES:
+    :ID:       727869d5-d314-4425-9fe9-dcb3adb5499e
+    :END:
+
+    In above command
+
+    - *vmx* (Virtual Machine eXtension) - denotes Intel processor
+    - *svm* (Secure Virtual Machine) - denotes AMD processor

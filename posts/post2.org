@@ -1,6 +1,8 @@
 #+title: Gitlab Pages and Org-mode
-#+author: Sachin
 #+date: <2016-05-23 Mon>
+
+
+/THIS is a sample post and will be removed./
 
 It's easy to publish org-mode pages via [[https://about.gitlab.com/gitlab-ci/][GitLab CI]] and [[https://pages.gitlab.io/][Pages]].
 
@@ -10,9 +12,8 @@ It's easy to publish org-mode pages via [[https://about.gitlab.com/gitlab-ci/][G
 </html>
 #+END_SRC
 
-#+BEGIN_SRC python -n
+#+BEGIN_SRC python
   from contextlib import contextmanager
-
 
   @contextmanager
   def tag(name):
@@ -25,7 +26,10 @@ It's easy to publish org-mode pages via [[https://about.gitlab.com/gitlab-ci/][G
 #+END_SRC
 
 
+#+BEGIN_SRC emacs-lisp
+(message "asasa")
+#+END_SRC
+
 This project was published with the following =.gitlab-ci.yml=:
 
 #+INCLUDE: "../.gitlab-ci.yml" src conf
-

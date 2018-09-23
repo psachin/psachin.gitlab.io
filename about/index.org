@@ -3,7 +3,7 @@
   #+ATTR_HTML: :class center no-border
   [[file:../../images/about/isitme.png]]
 
-  Developer, FOSS enthusiast, & avid GNU Emacs user. [[http://pgp.mit.edu/pks/lookup?search=psachin&op=index][My public key]]
+  Developer, FOSS enthusiast, & avid GNU Emacs user.
 
   #+ATTR_HTML: :class center no-border
   [[file:../../images/about/rx_open_source.png]]
@@ -95,9 +95,10 @@
 ** Articles
 *** Published on [[https://opensource.com/][opensource.com]]
 
-       - [[https://opensource.com/article/18/5/how-kill-process-stop-program-linux][How to kill a process or stop a program in Linux]]
-       - [[https://opensource.com/article/18/4/how-create-latex-documents-emacs][How to create LaTeX documents with Emacs]]
-       - [[https://opensource.com/life/16/2/intro-to-emacs][Getting started with Emacs text editor]]
+    - [[https://opensource.com/article/18/8/what-how-makefile][What is a Makefile and how does it work?]]
+    - [[https://opensource.com/article/18/5/how-kill-process-stop-program-linux][How to kill a process or stop a program in Linux]]
+    - [[https://opensource.com/article/18/4/how-create-latex-documents-emacs][How to create LaTeX documents with Emacs]]
+    - [[https://opensource.com/life/16/2/intro-to-emacs][Getting started with Emacs text editor]]
 
 *** Other web portals
 
@@ -114,8 +115,7 @@
    #+ATTR_HTML: :class center no-border
    [[file:../../images/about/skogskanten-300px.png]]
 
-*** Email: [[mailto:iclcoolster@gmail.com][iclcoolster@gmail.com]]
-*** IRC: =psachin@{RedHat, freenode, OFTC, GIMPNet}=
+*** IRC: psachin@{RedHat, freenode, OFTC, GIMPNet}
 
 ** Social
 

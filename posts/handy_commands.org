@@ -1,0 +1,135 @@
+#+title: Handy commands
+#+date: <2016-10-09>
+#+keywords: gs, ssh, wget, import, mplayer, ffmpeg, convert
+#+setupfile: ../org-templates/post.org
+
+List of commands for day-to-day use
+
+(*Updated on Mar 04, 2017*)
+
+**** SOCKS proxy using SSH
+     #+BEGIN_SRC bash
+       ssh -N -D 1080 user@server
+     #+END_SRC
+
+     /where/
+
+     =-N=: Do not execute remote commands.
+
+     =-D=: =[bind address:]port= (Port in above example)
+
+
+**** wget a website
+     #+BEGIN_SRC bash
+       wget -rkp -l5 -np -nH -cut-dirs=1 https://example.com
+     #+END_SRC
+
+     /where/
+
+     =-rkp=: recursive, make link suitable for local viewing, download all files needed to properly view the page.
+
+     =-l5=: recursively download 5 links away form the original page.
+
+     =-n=: retrieve files below parent directory.
+
+     =-H=: Span across hosts when doing recursive retrieving.
+
+**** Capture screenshot
+     #+BEGIN_SRC bash
+       import -window root screenshot.png
+     #+END_SRC
+
+**** Reduce PDF size
+     #+BEGIN_SRC bash
+       gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -sOutputFile=new_file.pdf original_file.pdf
+     #+END_SRC
+
+**** Unlock PDF file
+     #+BEGIN_SRC bash
+       gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=unencrypted.pdf -c .setpdfwrite -f encrypted.pdf
+     #+END_SRC
+
+**** Rotate video
+     #+BEGIN_SRC bash
+       # Using mplayer(watch rotated video)
+       mplayer -vf-add rotate=1 sample.mp4
+
+       # Using ffmpeg
+       ffmpeg -i infile.mp4 -strict -2 -vf "transpose=1" outfile.mp4
+     #+END_SRC
+
+**** Convert 3GP to MP4
+     #+BEGIN_SRC bash
+       ffmpeg -i VID_0050.3gp -strict -2 -q:a 0 -ab 64k -ar 44100 VID_0050.mp4
+     #+END_SRC
+
+**** FLV to MP4
+     #+BEGIN_SRC bash
+       ffmpeg -i input.flv -qscale 1 -ar 22050 output.mp4
+     #+END_SRC
+
+**** Extract audio(MP3) from MP4 video
+     #+BEGIN_SRC bash
+       ffmpeg -i video.mp4 -f mp3 -ab 192000 -vn music.mp3
+
+       # or specify codec to use `libmp3lame` in this case.
+       ffmpeg -i video.mp4 -f mp3 -codec:a libmp3lame -ab 320000 -vn music.mp3
+     #+END_SRC
+
+     /where/
+
+     =-i=: input file
+
+     =-f mp3=: file format should be MP3
+
+     =-ab 192000=: audio should be encoded at 192Kbps. 320000 for 320Kbps
+
+     =-vn=: don't want video
+
+**** Cut video by time interval
+
+***** Cut video starting from 19 min 49 seconds up to 04 mins 18 seconds.
+      #+BEGIN_SRC bash
+	ffmpeg -y -i Video.mp4 -qscale 1 -ss 00:19:49.0 -t 00:04:18.0 -acodec copy -vcodec copy output.mp4
+      #+END_SRC
+
+      /Note/: =-sameq= was removed in recent version of =ffmpeg=
+
+**** Use =mplayer= to extract audio(MP3)
+     #+BEGIN_SRC bash
+       mplayer -dumpaudio movie.flv -dumpfile movie_audio_track.mp3
+     #+END_SRC
+
+**** Reduce resolution
+     #+BEGIN_SRC bash
+       ffmpeg -i Birdman.mp4 -strict -2  -s 720x480 birdman.mp4
+     #+END_SRC
+
+**** recordmydesktop
+     #+BEGIN_SRC bash
+       recordmydesktop -x 100 -y 100 --width 1280 --height 720 --freq 48000 --fps 30 -o ~/Videos/recordings/test-video.ogv
+     #+END_SRC
+
+**** Include subtitles(Use =subtitleeditor= to create subtitle)
+     #+BEGIN_SRC bash
+       ffmpeg -i video.avi -vf subtitles=subtitle.srt out.avi
+     #+END_SRC
+
+**** Resize image 50% of its original size
+     #+BEGIN_SRC bash
+       convert dragon.gif -resize 50% half_dragon.gif
+     #+END_SRC
+
+**** Control compression level of an image
+     #+BEGIN_SRC bash
+       convert input.png -quality 75 output.jpg
+     #+END_SRC
+
+**** Clean up =~/.ccache/= directory
+     #+BEGIN_SRC bash
+       # View statistics using
+       ccache -s
+
+       # Clear cache using
+       ccache -C
+     #+END_SRC

@@ -1,0 +1,90 @@
+#+title: Very happy with Emacs pretest
+#+date: <2016-04-17>
+#+keywords: emacs, pretest
+#+setupfile: ../org-templates/post.org
+
+I decided to use pretest version of Emacs instead of a stable release
+and so far it turned out to be a pleasant experience.
+
+#+CAPTION: Emacs pretest
+#+ATTR_HTML: :alt Emacs pretest :title Emacs pretest
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/happy_emacs/emacs-pretest.png]]
+
+For those who don't have any idea, you can visit
+[[http://alpha.gnu.org/gnu/emacs/pretest/][http://alpha.gnu.org/gnu/emacs/pretest/]]] and download the latest
+version. Compiling and using should not be a problem. But still for
+newcomers, following are the steps:
+
+- Download and extract the latest pretest version.
+  #+BEGIN_SRC bash
+    wget -Nc --show-progress http://alpha.gnu.org/gnu/emacs/pretest/emacs-25.0.92.tar.xz
+    tar xvJf emacs-25.0.92.tar.xz
+  #+END_SRC
+
+- Configure and compile.
+  #+BEGIN_SRC bash
+    cd emacs-25-0.92
+  #+END_SRC
+
+  Make sure you have `/opt/emacs-pretest` directory present.
+  #+BEGIN_SRC bash
+    sudo mkdir -p /opt/emacs-pretest
+  #+END_SRC
+
+  Configure the build environment
+  #+BEGIN_SRC bash
+    ./configure --prefix=/opt/emacs-pretest --host=x86_64-fedora23-linux-gnu
+  #+END_SRC
+
+  Build from source
+  #+BEGIN_SRC bash
+    make
+  #+END_SRC
+
+  =make= will take time depending on your system specs
+
+  If you are unaware of the flags:
+  - =--prefix= makes sure that the final binary(with directory
+    structure) will be copied inside =/opt/emacs-pretest/= when you
+    run =make install=
+
+  - =--host= ensures that when you do =M-x version=, it should return
+    =x86_64-fedora23-linux-gnu= instead of =x86_64-unknown-linux-gnu=.
+    Feel free to experiment but make sure the string ends with 'linux'
+    or 'gnu'.
+
+    If the =make= is successful, you can go head and try the build using.
+    #+BEGIN_SRC bash
+      src/emacs
+    #+END_SRC
+
+    Now try querying the version within Emacs.
+    #+BEGIN_SRC emacs-lisp
+      M-x version
+    #+END_SRC
+
+
+- Install
+
+  Try out Emacs with your custom configuration. When you are happy,
+  you can proceed toward installation.
+  #+BEGIN_SRC bash
+    sudo make install
+  #+END_SRC
+
+  Emacs binary will reside in =/opt/emacs-pretest/bin/emacs=. This is
+  symbolic link to the file =/opt/emacs-pretest/bin/emacs-25.0.92=
+
+If everything goes well, you can add this binary to your launch
+application or just create a desktop shortcut.
+
+You should keep the stable version of Emacs as a backup. Till now, I
+never faced any problem and will continue using Emacs-pretest as my
+default.
+
+If you encounter any issues during =make=, make sure you have all
+dependencies installed. If you think, there is an issue in the pretest
+release and needs to be fixed, make sure that it is reproducible
+before notifying `emacs-devel@gnu.org`. You can also ask for help on
+IRC at freenode, channel *#emacs*.

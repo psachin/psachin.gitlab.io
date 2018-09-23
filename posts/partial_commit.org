@@ -1,0 +1,79 @@
+#+title: Commit part of a file
+#+date: <2016-06-11>
+#+keywords: git, partial commit, file
+#+setupfile: ../org-templates/post.org
+
+We seldom have a situation where only a part of a file needs to be
+committed. This may be due to the fact that within a file, we do not
+want to commit those changes of which we are unsure about. Let me
+introduce you to =--patch=, one of the options of =git-add=.
+
+I have few parts in a file, lets call them "hunk". Some of the hunks,
+I wish to commit, others I don't want to commit(I'm not sure if they
+are worth it).
+
+As usual, I start by adding a file, but this time, instead of using
+=git add <FILENAME>=, I'll include an option =--patch= to =git-add=,
+#+BEGIN_SRC bash
+  git add --patch <FILENAME>
+#+END_SRC
+
+This will give me a chance to review my changes. Git carefully scans
+my changes, and will prompt me for every hunk he detects modified
+content. I'll have an option to stage(y), do not stage(n), quit(q),
+stage all hunks(a), and so no. Full list of options with explanation
+is displayed while using option =--interactive= with =git-add=.
+
+I want to stage the first hunk, I will say 'y' here as show in below
+snapshot.
+
+#+CAPTION: Commit ReadMe.org warning
+#+ATTR_HTML: :alt Commit ReadMe.org warning :title Commit ReadMe.org warning
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/partial_commit/readme_warning_yes.png]]
+
+Git will go head and present me with second hunk. I'm not sure of
+these changes and I'll say 'n' at the prompt.
+
+#+CAPTION: Do not commit use-package test
+#+ATTR_HTML: :alt Do not commit use-package test :title Do not commit use-package test
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/partial_commit/test_use-package_no.png]]
+
+Git will not stage that piece of change, and will jump to next hunk. I
+want to commit this hunk. I'll enter 'y' as show below.
+
+#+CAPTION: Commit prog-mode-hook
+#+ATTR_HTML: :alt Commit prog-mode-hook :title Commit prog-mode-hook
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/partial_commit/prog-mode-hook_yes.png]]
+
+If I check the status of the file after completed answering the
+prompts, I still see that file in un-staged area. This is similar to
+modifying the file after staging. This is expected as I have partially
+staged the file(Note that =st= is an alias for =status=).
+
+#+CAPTION: Git status
+#+ATTR_HTML: :alt Git status :title Git status
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/partial_commit/git_status.png]]
+
+Further, =git diff= will display the changes, I ignored during the
+interactive mode.
+
+#+CAPTION: Git diff
+#+ATTR_HTML: :alt Git diff :title Git diff
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/partial_commit/git_diff.png]]
+
+But =git diff --cached= will have all staged hunks.
+
+#+CAPTION: Git diff cached
+#+ATTR_HTML: :alt Git diff cached :title Git diff cached
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/partial_commit/git_diff_cached.png]]
+
+Ensuring that I have what I needed in my staging area, I can go ahead
+and commit my changes.
+
+- Reference: [[https://git-scm.com/docs/git-add][https://git-scm.com/docs/git-add]]

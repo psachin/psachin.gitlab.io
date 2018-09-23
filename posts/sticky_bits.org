@@ -1,0 +1,83 @@
+#+title: Sticky bits
+#+date: <2015-12-14>
+#+keywords: sticky bits, permissions, file deletion restriction
+#+setupfile: ../org-templates/post.org
+
+Sticky bits explained
+
+** Introduction
+   - It actually use to set =setuid= & =setgid=
+   - =setuid= allows users to run an executable with the permissions of
+     the file owner.
+   - =setgid= allows users in the group to run an executable with the
+     permissions of the file owner's group.
+   - They are used to prevent other users from altering files/directory
+     in a common workspace like =/var/share= or =/tmp=
+   - =-t= is used to protect files within a directory. This is also
+     called *restricted deletion flag.
+
+     Usage
+     #+BEGIN_SRC bash
+       chmod +t /var/share
+     #+END_SRC
+
+   - In some case you want all user to execute particular binary but
+     keeping file ownership to yourself. Suppose the file is
+     =/usr/bin/bin2hex=
+
+     In such situation *sticky bit* is handy
+     #+BEGIN_SRC bash
+       chmod +s /usr/bin/bin2hex
+     #+END_SRC
+
+     This will set both setuid & setgid, if you want to have fine
+     control, use u+s, or g+s
+
+     *Example*: setuid ONLY
+     #+BEGIN_SRC bash
+       chmod u+s /usr/bin/bin2hex
+     #+END_SRC
+
+     *Example*: setgid ONLY
+     #+BEGIN_SRC bash
+       chmod g+s /usr/bin/bin2hex
+     #+END_SRC
+
+     or you can remove sticky bits using =u-s=, =g-s=
+
+   - Binary implementation of *Restrict file deletion flag*
+     #+BEGIN_SRC bash
+       chmod +t /var/share
+       # is equivalent to
+       chmod 1755 /var/share
+     #+END_SRC
+
+     We can also set both =setuid= and *Restrict file deletion flag*
+     #+BEGIN_SRC bash
+       chmod 5755 /var/share
+       # is equivalent to
+       chmod u+s,+t /var/share
+     #+END_SRC
+
+** Explanation
+
+   Say the permission on file is **5755**
+
+   Lets break it as **5** and **755**
+
+   **5** = *4* (setuid or =+s=) + *1* (restrict file deletion flag or =+t=)
+
+   **755** is =rwx-r-x-r-x=
+
+** Another example
+
+   **7755** can be broke into **7** & **755**
+
+   **7** = *4* (setuid) + *2* (setgid) + *1* (restrict file deletion bit)
+
+** Final note
+
+   A classic example of sticky bit is the permission set on binary
+   file =passwd=. Although it is owned by root, =setuid= is set for
+   normal users to execute the program in-order to change password. It
+   was invented by Dennis Ritchie around 1972.

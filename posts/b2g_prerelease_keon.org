@@ -1,0 +1,106 @@
+#+title: Boot2Gecko 1.5.0.0-prerelease build
+#+author: Sachin
+#+date: <2014-03-27>
+
+For impatient Geeksphone(Keon) users who want to try the latest
+version of **Boot2Gecko** (Firefox-OS), I have compiled an pre-release
+image.
+
+#+CAPTION: Lock screen
+#+ATTR_HTML: :alt GP lock screen :title GP lock screen
+#+ATTR_HTML: :width 60% :height
+[[file:images/posts/b2g/gp-lockscreen.png]]
+
+Its a pre-release version, but works perfectly fine. It is tested on
+Geeksphone(Keon v1, model: =qcom=).
+
+** Backup existing ROM
+   - Make sure you have more than 50% battery left.
+   - Before you flash, make sure to backup an existing ROM.
+   - Power off the phone.
+   - Reboot the phone into recovery by pressing =Vol Up= and =Power=
+     keys simultaneously.
+   - Go to **backup and restore** option(Use =Vol UP/DOWN= key to
+     toggle, and =Home= soft key to select an option)
+
+   #+CAPTION: Recovery menu
+   #+ATTR_HTML: :alt Recovery menu :title Recovery menu
+   #+ATTR_HTML: :width 60% :height
+   [[file:images/posts/b2g/gp-recovery-menu.jpg]]
+
+
+   - Now inside 'Backup and Restore' menu, select **backup** (first
+     item in the menu)
+
+   #+CAPTION: Backup and Restore menu
+   #+ATTR_HTML: :alt Backup and Restore menu :title Backup and Restore menu
+   #+ATTR_HTML: :width 60% :height
+   [[file:images/posts/b2g/gp-backup-restore-menu.jpg]]
+
+   - This will create a backup of an existing ROM in external SD-card.
+     You also have an option to backup to internal SD-card.
+
+** Install (Using GNU/Linux system)
+
+   - Download [[https://drive.google.com/uc?id=0B-PZvjWWRSpQcUF1dVJEc2s5V3M&export=download][zip]] and [[https://docs.google.com/file/d/0B-PZvjWWRSpQenNBX0dld0NIQ2c/][checksum]] files
+
+   - Verify the checksum using following command:
+     #+BEGIN_SRC bash
+       md5sum -c image-1.5.0.0-prerelease-keon-v1-2014-03-27.md5
+     #+END_SRC
+
+   #+CAPTION: Verify checksome
+   #+ATTR_HTML: :alt Verify checksome :title Verify checksome
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/b2g/gp-md5check.png]]
+
+   - Extract the zip file using:
+     #+BEGIN_SRC bash
+       unzip image-1.5.0.0-prerelease-keon-v1-2014-03-27.zip
+     #+END_SRC
+
+   - Visit the directory
+     =image-1.5.0.0-prerelease-keon-v1-2014-03-27= using:
+     #+BEGIN_SRC bash
+       cd image-1.5.0.0-prerelease-keon-v1-2014-03-27
+     #+END_SRC
+
+   - Plug the device using USB data cable
+   - Make sure that 'Remote debugging' is enabled from
+
+     **Settings > Device information > More information > Developer > Remote debugging**
+
+   - Flash the image using:
+     #+BEGIN_SRC bash
+       bash ./flash.sh
+     #+END_SRC
+
+   #+CAPTION: Flash build image using a script
+   #+ATTR_HTML: :alt Flash build image using a script :title Flash build image using a script
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/b2g/gp-flashimage.png]]
+
+
+** Pics
+
+   #+CAPTION: Home screen
+   #+ATTR_HTML: :alt Home screen :title Home screen
+   #+ATTR_HTML: :width 60% :height
+   [[file:images/posts/b2g/gp-device-homescreen.jpg]]
+
+   #+CAPTION: Lock screen
+   #+ATTR_HTML: :alt Lock screen :title Lock screen
+   #+ATTR_HTML: :width 60% :height
+   [[file:images/posts/b2g/gp-device-lockscreen.jpg]]
+
+   #+CAPTION: Device information
+   #+ATTR_HTML: :alt Device information :title Device information
+   #+ATTR_HTML: :width 60% :height
+   [[file:images/posts/b2g/gp-devinfo.png]]
+
+** Downloads
+   - [[https://drive.google.com/uc?id=0B-PZvjWWRSpQcUF1dVJEc2s5V3M&export=download][image-1.5.0.0-prerelease-keon-v1-2014-03-27.zip]]
+   - [[https://docs.google.com/file/d/0B-PZvjWWRSpQenNBX0dld0NIQ2c/][image-1.5.0.0-prerelease-keon-v1-2014-03-27.md5]]
+   - Flash script(for reference): [[https://github.com/psachin/bash_scripts/blob/master/flash.sh][flash.sh]]
+
+/Note: Some images are captured using Android SDK 'monitor' tool/

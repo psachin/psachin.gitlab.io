@@ -1,0 +1,29 @@
+#+title: Install Protractor
+#+date: <2015-03-06>
+#+keywords: nodejs, protractor
+#+setupfile: ../org-templates/post.org
+
+Protractor is an unittest framework for [[http://angularjs.org/][AngularJS]] applications. It is
+based on [[http://nodejs.org/][Node.js]]. To install Protractor, you need to install Node.js
+
+**** To install Node.js
+     1. Download source code of Node.js from [[http://nodejs.org/download/][nodejs.org]]. Debian/Ubuntu
+        user may use =apt-get= to install Node.js.
+     2. Untar using =tar -xvzf node-xxx.tar.gz=
+     3. Configure, compile, and install using
+	#+BEGIN_SRC bash
+	  cd node
+	  ./configure
+	  make
+	  sudo make install
+	#+END_SRC
+
+     4. =npm= is a package-manager for Node.js. It should installed
+        with Node.js
+
+
+**** Now install Protractor using
+     1. =sudo npm install -g protractor=. =-g= will install protractor
+        globally
+     2. This will also install =webdriver-manager=. Update
+        webdriver-manager using: =webdriver-manager update=

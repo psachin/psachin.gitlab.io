@@ -1,0 +1,146 @@
+#+title: Hack your wrist
+#+date: <2017-02-10>
+#+keywords: asteroidos, zenwatch, zw2
+#+setupfile: ../org-templates/post.org
+
+[[https://asteroidos.org/][AsteroidOS]] is an open-source operating system for smartwatches. It's
+based on Qt & QML with OpenEmbedded GNU/Linux distribution.
+
+#+ATTR_HTML: :width 70% :height
+[[file:images/posts/asteroidos/cropped-logo-tourne.png]]
+
+Eventually I was able to run AsteroidOS on my [[https://www.asus.com/in/ZenWatch/ASUS_ZenWatch_2_WI501Q/][ZenWatch2]]. It has been
+an amazing experience to run GNU/Linux distribution on a watch. The
+user-interface is smooth and covers most features that are needed for
+a smart-watch.
+
+#+CAPTION: Drawer
+#+ATTR_HTML: :alt Drawer :title Drawer
+#+ATTR_HTML: :width 70% :height
+[[file:images/posts/asteroidos/drawer20.png]]
+
+*** Community
+
+    Since few days I was planning to install AsteroidOS. My initial
+    attempts failed with my watch refused to boot up with AsteroidOS.
+    This is when I figured out that =initramfs= is not able to find
+    =/sdcard/linux/rootfs.ext2= on Zenwatch-2 HyperCharge
+    model(WI501Q). This was brought up by /bencord0/ on [[https://asteroidos.org/irc-channel/][#asteroid
+    channel]]
+
+    #+BEGIN_SRC bash
+      psachin	bencord0: All the files are downloaded from official page and are intact
+      psachin	bencord0: Do you want to look at the output of above command?
+      bencord0	Sure
+      psachin	bencord0: < waiting for any device >
+      psachin	downloading 'boot.img'...
+      psachin	OKAY [  0.336s]
+      psachin	booting...
+      psachin	OKAY [  0.506s]
+      psachin	finished. total time: 0.842s
+      psachin	bencord0: Nothing unusual
+      bencord0	The initramfs will reboot back to android it it cant find the rootfs
+      bencord0	Did you adb push the rootfs to /sdcard/linux/rootfs.ext2 ?
+      psachin	bencord0: Yes. adb push -p asteroid-image-sparrow.ext2 /sdcard/linux/rootfs.ext2
+      psachin	[100%] /sdcard/linux/rootfs.ext2
+    #+END_SRC
+
+    I tried to compile few builds to verify this using /bencord0's/
+    suggestions
+    #+BEGIN_SRC bash
+      bencord0	https://github.com/AsteroidOS/meta-sparrow-hybris/blob/master/recipes-core/initrdscripts/initramfs-boot-android/init.sh is the init script in the initramfs. Stick an infinite loop near the top, run the build and boot that. If it stays blank, then we will have learned something.
+    #+END_SRC
+
+    which yield similar results and failed to boot AsteroidOS
+    #+BEGIN_SRC bash
+      psachin	bencord0: even with infinite loop it booted with android-wear
+    #+END_SRC
+
+    I also tried few AOSP branch which gave same results
+    #+BEGIN_SRC bash
+      psachin	kido: Didn't get you. What branch? android-msm-sparrow-3.10-marshmallow-mr1-wear-release? with commit: 8ffc85d0e5dba485a52a4405a21d3a516f969420. Do you want me to test the patch manually?
+      @kido	this branch is marshmallow, maybe there is a newer branch for lollypop or whatever
+    #+END_SRC
+
+    I waited for few weeks and saw [[https://github.com/AsteroidOS/meta-sparrow-hybris/commit/d1c95c8c508b69f01fa957b427d430b9e892f94f][new commit]] by /Florent/ which I
+    decided to try. I pulled and compiled latest changes which worked.
+
+*** User Interface
+
+    Asteroid has sufficient features to get started. The UI is smooth
+    and can be tweaked as per need. Within settings it has Time, Date,
+    Language, Bluetooth, Brightness, Wallpaper, Watchface, USB,
+    Poweroff, Reboot & About options.
+
+    #+CAPTION: Settings
+    #+ATTR_HTML: :alt Settings :title Settings
+    #+ATTR_HTML: :width 70% :height
+    [[file:images/posts/asteroidos/settings10.png]]
+
+    I personally find adjusting date/time much more convenient that
+    Android Wear.
+
+    #+CAPTION: Set date
+    #+ATTR_HTML: :alt Set date :title Set date
+    #+ATTR_HTML: :width 70% :height
+    [[file:images/posts/asteroidos/date20.png]]
+
+    User has option to set USB mode to adb, Developer, Mass storage or
+    MTP mode.
+
+    #+CAPTION: ADB mode
+    #+ATTR_HTML: :alt ADB mode :title ADB mode
+    #+ATTR_HTML: :width 70% :height
+    [[file:images/posts/asteroidos/adb20.png]]
+
+    Using app switcher, one can switch between recently opened apps easily.
+
+    #+CAPTION: Opened apps
+    #+ATTR_HTML: :alt Opened apps :title Opened apps
+    #+ATTR_HTML: :width 70% :height
+    [[file:images/posts/asteroidos/apps20.png]]
+
+    AsteroidOS has few Watchface but they match Asteroid theme and I
+    find them sober.
+
+    #+CAPTION: Default Watch face
+    #+ATTR_HTML: :alt Default Watch face :title Default Watch face
+    #+ATTR_HTML: :width 70% :height
+    [[file:images/posts/asteroidos/watchface20.png]]
+
+    Finally it has wallpapers which can be applied over a Watchface.
+
+    #+CAPTION: Watchface
+    #+ATTR_HTML: :alt Watchface :title Watchface
+    #+ATTR_HTML: :width 70% :height
+    [[file:images/posts/asteroidos/wallpaper20.png]]
+
+    Finally it has wallpapers which can be applied over a Watchface.
+
+
+*** Install AsteroidOS
+
+    AsteroidOS Alpha 1.0 can be [[https://asteroidos.org/install/][installed]] on four smartwatches
+
+    - LG G Watch(dory)
+    - LG G Watch Urbane(bass)
+    - Sony Smartwatch 3(tetra)
+    - Asus Zenwatch 2(sparrow)
+
+*** Build AsteroidOS
+
+    One can build AsteroidOS following [[https://asteroidos.org/wiki/building-asteroidos/][wiki page]]. On Fedora-25, one
+    need to install following dependencies
+    #+BEGIN_SRC bash
+      dnf install -y git perl-bignum git patch chrpath gawk diffstat texinfo libaccounts-glib libaccounts-glib-devel
+      dnf groupinstall -y "C Development Tools and Libraries"
+    #+END_SRC
+
+*** Unofficial build
+
+   - Asus ZenWatch2: [[https://mega.nz/#F!DshE3DKY!4cX_nQ2iSo3sMkZ3TXLvQA)][asteriodOS-alpha-1.0 (/Compiled on: Feb 18, 2017/)]]
+
+AsteroidOS unlocks new doors for Smartwatch Operating system with
+end-users no longer have to only depend on Android Wear. AsteroidOS
+community is very active and responsive. I encourage users to try out
+AsteroidOS on smartwatch and give feedback to AsteroidOS community.

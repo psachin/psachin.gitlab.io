@@ -1,0 +1,93 @@
+#+title: UML
+#+date: <2014-04-28>
+#+keywords: uml, kernel, linux
+#+setupfile: ../org-templates/post.org
+
+UML is a port of linux to linux as referred by Jeff Dike, the man
+behind UML. It is a virtual machine which runs on linux and used to
+debug new kernel builds and kernel modules. In this post, I will show
+how to compile, and run UML
+
+** Compile
+
+   Download latest kernel source from [[https://www.kernel.org/][kernel.org]], as of this writing,
+   the kernel version was 3.14.2
+   #+BEGIN_SRC bash
+     wget -c https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.14.2.tar.xz
+   #+END_SRC
+
+   Un-compress and visit the directory
+   #+BEGIN_SRC bash
+     tar -xvJf linux-3.14.2.tar.xz
+     cd linux-3.14.2
+   #+END_SRC
+
+   Clean previous configs, blobs using
+   #+BEGIN_SRC bash
+     make mrproper; make mrproper ARCH=um; make clean
+   #+END_SRC
+
+   Load default host config
+   #+BEGIN_SRC bash
+     make defconfig ARCH=um
+   #+END_SRC
+
+   If you don't start with a =defconfig=, then the kernel build will
+   be that of the host(it will find a config file in /boot), which is
+   not appropriate for UML and will produce a UML that lacks vital
+   drivers and won't boot.
+   #+BEGIN_SRC bash
+     make menuconfig ARCH=um
+   #+END_SRC
+
+   Select host processor type and features
+   #+CAPTION: Linux kernel menuconfig
+   #+ATTR_HTML: :alt Linux kernel menuconfig :title Linux kernel menuconfig
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/uml/uml-menuconfig.png]]
+
+   Save and exit menuconfig window.
+
+   Finally, compile the kernel
+   #+BEGIN_SRC bash
+     make linux ARCH=um
+   #+END_SRC
+
+   The result will be 2 binaries, =vmlinuz= & =linux=
+
+** Run
+   Boot your newly compiled kernel using
+   #+BEGIN_SRC bash
+     ./linux
+   #+END_SRC
+
+   This should die with a message something like
+   #+BEGIN_SRC bash
+     Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(98,0)
+   #+END_SRC
+
+   #+CAPTION: UML kernel panic
+   #+ATTR_HTML: :alt UML kernel panic :title UML kernel panic
+   #+ATTR_HTML: :width 90% :height
+   [[file:images/posts/uml/uml-kernel-panic.png]]
+
+   - Boot with rootfs
+     - Now that the kernel was unable to find roofs, you can download
+       rootfs from http://fs.devloop.org.uk/
+
+     - Add a parameter =ubda= followed by your rootfs path.
+       Optionally, you may also add a =mem= parameter to specify
+       amount of RAM your UML should use.
+       #+BEGIN_SRC bash
+         ./linux ubda=/path/to/rootFS mem=128M
+       #+END_SRC
+
+   #+CAPTION: UML: Boot with rootfs
+   #+ATTR_HTML: :alt UML: Boot with rootfs :title UML: Boot with rootfs
+   #+ATTR_HTML: :width 90% :height
+   [[file:images/posts/uml/uml-rootfs.png]]
+
+   #+CAPTION: UML: login prompt
+   #+ATTR_HTML: :alt UML: login prompt :title UML: login prompt
+   #+ATTR_HTML: :width 90% :height
+   [[file:images/posts/uml/uml-login.png]]

@@ -1,0 +1,29 @@
+#+title: ffmpeg with libmp3lame encoder support
+#+date: <2017-04-02>
+#+keywords: ffmpeg, libmp3lame
+#+setupfile: ../org-templates/post.org
+
+How to manually install =ffmpeg= with =libmp3lame= encoder support.
+
+** Install lame encoder
+
+   Download and extract lame from [[https://sourceforge.net/projects/lame/?source=typ_redirect][https://sourceforge.net/projects/lame]]
+
+   #+BEGIN_SRC bash
+     cd lame-*
+     make
+     sudo make install
+   #+END_SRC
+
+** Clone and install ffmpeg
+
+   #+BEGIN_SRC bash
+     git clone https://git.ffmpeg.org/ffmpeg.git
+     ./configure --enable-libmp3lame
+     make
+     sudo make install
+   #+END_SRC
+
+/Note/: If you are using Fedora 27 or above, lame is available as
+package using =dnf= or =yum= hence not required to install from
+source.

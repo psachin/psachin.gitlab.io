@@ -1,0 +1,100 @@
+#+title: ManageIQ - Attach disk to RHV VM using button
+#+date: <2017-03-04>
+#+keywords: manageiq, rhv, rhevm, button, disk
+#+setupfile: ../org-templates/post.org
+
+Post describes a way to attach additional disk to RHV VM using button.
+
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/miq_add_disk/manageiq-logo-standard-vertical.png]]
+
+Just to get my hands dirty on [[http://manageiq.org/docs/reference/latest/doc-Methods_Available_for_Automation/miq/][ManageIQ's Automate model]], I started
+working on a way to attach additional disk to VM running on [[https://access.redhat.com/products/red-hat-virtualization][Red Hat
+Virtualization]]. Although it can be easily done by "Reconfigure this
+VM", I wanted a way to do this via Automate. I did found two ways to
+do this, one described in [[https://pemcg.gitbooks.io/mastering-automation-in-cloudforms-4-2-and-manage/content/customising_vm_provisioning/chapter.html][Mastering Automation in CloudForms &
+ManageIQ]] and other [[http://www.jung-christian.de/2016/08/add-an-additional-disk-on-rhev-virtual-machines/][here]]. Both uses ReST APIs to achieve the task but
+then I came across this [[https://github.com/ManageIQ/manageiq/pull/13318][Pull Request]] which made the job quite easy.
+
+*** Datastore
+
+    I have created a domain -- [[https://github.com/psachin/AutomateMIQ.git][AutomateMIQ]] which has a custom method
+    -- =add_disk=. It is called by instance =hot_add_disk=. =add_disk=
+    has everything you need to attach new disk to VM including
+    notifications and email.
+
+    #+CAPTION: Automate datastore
+    #+ATTR_HTML: :alt Automate datastore :title Automate datastore
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/miq_add_disk/datastore.png]]
+
+    Now datastores can be managed by [[https://git-scm.com][git]] as seen below. Enter git
+    repository URL with valid credentials and click submit button.
+
+    #+CAPTION: Use Automate git to manage datastore
+    #+ATTR_HTML: :alt Use Automate git to manage datastore :title Use Automate git to manage datastore
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/miq_add_disk/automate-git.png]]
+
+*** Service dialog
+
+    One also needs to create a service dialog which prompts for **disk
+    size** and **disk provisioning type**. These fields are then
+    imported by =add_disk=. The disk is then attached based on user
+    defined parameters. I have imported **Add disk** [[https://gist.github.com/psachin/d601fc54c9ba060c132fbf052af8c7c7][service dialog]] in
+    form of yaml for reference.
+
+    #+CAPTION: Service dialog prompts for disk size and provisioning type
+    #+ATTR_HTML: :alt Service dialog prompts for disk size and provisioning type :title Service dialog prompts for disk size and provisioning type
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/miq_add_disk/dialog_add_disk.png]]
+
+*** Button
+
+    Finally we need a button to call instance =hot_add_disk=. A button
+    calls =request type= "AddDisk" from =/System/Process/= as seen
+    below. Please find button in form of yaml [[https://gist.github.com/psachin/7079e1328810bb61dda485845009f921][here]].
+
+    #+CAPTION: Create button to add disk
+    #+ATTR_HTML: :alt Create button to add disk :title Create button to add disk
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/miq_add_disk/button_add_disk.png]]
+
+    A button will be visible under 'Actions' dropdown on VM's summary
+    page as below.
+
+    #+CAPTION: Add disk button on VM's summary page
+    #+ATTR_HTML: :alt Add disk button on VM's summary page :title Add disk button on VM's summary page
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/miq_add_disk/button_action_add_disk.png]]
+
+*** Notifications
+
+    Once the disk is attached, user will be notified.
+
+    #+CAPTION: Notification
+    #+ATTR_HTML: :alt Notification :title Notification
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/miq_add_disk/notification.png]]
+
+    Finally, an additional disk will be attached to VM.
+
+    #+CAPTION: Newly attached disk
+    #+ATTR_HTML: :alt Newly attached disk :title Newly attached disk
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/miq_add_disk/number_of_disks.png]]
+
+
+/Note that the feature work on **euwe** release of ManageIQ. If not
+already done, please upgrade ManageIQ version following below steps./
+
+#+BEGIN_SRC bash
+  ssh root@<ManageIQ Appliance>
+  vmdb
+  git fetch --all
+  git checkout euwe-2
+  git checkout -b euwe-2
+  bundle install  # or bin/install
+  bundle exec rake evm:compile_assets
+  bundle exec rake evm:restart
+#+END_SRC

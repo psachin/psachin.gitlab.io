@@ -1,0 +1,158 @@
+#+title: Network utilities
+#+author: Sachin
+#+date: <2012-03-24>
+
+Few network configuration which can be performed using CLI, this post
+covers examples with syntax.
+
+(Updated on Aug 09, 2018)
+
+/Note/: You must be =root= or =sudo= user to run following commands.
+=ifconfig= has been deprecated in favor of =ip=
+
+** Assign IP address
+   :PROPERTIES:
+   :ID:       ac9cf0b9-5b67-4c37-889f-5c727e5e1cae
+   :END:
+
+   Syntax
+   #+BEGIN_SRC sh
+     ifconfig <INTERFACE> <IP-ADDRESS> netmask <NETMASK>
+     # or
+     ip addr add <IP-ADDRESS/CIDR> dev <INTERFACE>
+   #+END_SRC
+
+   Example
+   #+BEGIN_SRC sh
+     ifconfig eth0 192.168.1.11 netmask 255.255.255.0
+     # or
+     ip addr add 192.168.1.11/24 dev eth0
+   #+END_SRC
+
+** Add gateway/route
+   :PROPERTIES:
+   :ID:       b08bf55d-95cf-41ec-b259-da3077fa438d
+   :END:
+
+   Syntax
+   #+BEGIN_SRC sh
+     route add default gw <GATEWAY-IP> <INTERFACE>
+     # or
+     ip route add default via <GATEWAY-IP> dev <INTERFACE>
+   #+END_SRC
+
+   Example
+   #+BEGIN_SRC sh
+     route add default gw 192.168.1.1 eth0
+     # or
+     ip route add default via 192.168.1.1 dev eth0
+   #+END_SRC
+
+** Temporary spoof MAC address
+   :PROPERTIES:
+   :ID:       aff8abd3-39ef-49a3-981d-665fb2df8c18
+   :END:
+
+   Syntax
+   #+BEGIN_SRC sh
+     ip link set down dev DEVICE_NAME
+     ip link set dev DEVICE_NAME address AA:BB:CC:DD:EE:FF
+     ip link set up dev DEVICE_NAME
+   #+END_SRC
+
+   Example
+   #+BEGIN_SRC sh
+     ip link set down dev enp0s21
+     ip link set dev enp0s21 address AA:BB:CC:DD:EE:FF
+     ip link set up dev enp0s21
+   #+END_SRC
+
+** Set DNS address
+   :PROPERTIES:
+   :ID:       fb2f8865-7f13-45cf-ab06-73e6a67f3dc8
+   :END:
+
+   Optionally DNS can be entered in the file =/etc/resolv.conf= in
+   following format
+
+   #+BEGIN_SRC sh
+     # /etc/resolv.conf
+     nameserver 8.8.8.8
+     nameserver 8.8.4.4
+   #+END_SRC
+
+   All the above changes will be temporary(unless you reboot the system)
+
+** Additional scenario
+   :PROPERTIES:
+   :ID:       6cd6bbb6-3d2c-4b4b-b2ea-99c1c50543e9
+   :END:
+
+   - You want 10.10.10.x address space to bypass default gateway of
+     the network. You can reach network range of 10.10.10.0/24 via
+     192.168.1.11 on device =eth0=
+
+     #+BEGIN_SRC sh
+       ip route add 10.10.10.0/24 via 192.168.1.11 dev eth0
+     #+END_SRC
+
+
+   - Make routes persistent(on Fedora/RHEL)
+
+     Add following entry into the file
+     =/etc/sysconfig/network-scripts/route-DEVICE_NAME=
+
+     #+BEGIN_SRC sh
+       10.10.10.0/24 via 192.168.1.11 dev DEVICE_NAME
+     #+END_SRC
+
+** CLI to control NetworkManager
+    :PROPERTIES:
+    :ID:       1336ac1b-1b71-49ab-ac18-144756a85de3
+    :END:
+
+*** Check overall status
+    :PROPERTIES:
+    :ID:       88fa49dc-993c-4ed1-ac19-1307fc32d16c
+    :END:
+    #+BEGIN_SRC sh
+      nmcli general status
+    #+END_SRC
+
+*** Show all connections
+    :PROPERTIES:
+    :ID:       7c71ba0f-dedf-4dc6-80eb-d9d893ef91b5
+    :END:
+    #+BEGIN_SRC sh
+      nmcli connection
+    #+END_SRC
+
+*** Show details for specific connection
+    :PROPERTIES:
+    :ID:       99c2ef59-f4ee-4eaa-b739-7b973413fcb0
+    :END:
+
+    Syntax
+    #+BEGIN_SRC sh
+      nmcli connection show <GENERAL.NAME>
+    #+END_SRC
+
+    Example
+    #+BEGIN_SRC sh
+      nmcli connection show my-dsl-conn
+    #+END_SRC
+
+*** Connect using connection name
+    :PROPERTIES:
+    :ID:       96d5a755-7a62-45ba-8d93-291c083054cb
+    :END:
+
+    Syntax
+    #+BEGIN_SRC sh
+      nmcli connection up <GENERAL.NAME>
+    #+END_SRC
+
+    Example
+    #+BEGIN_SRC sh
+      nmcli connection up my-dsl-conn
+    #+END_SRC

@@ -1,0 +1,183 @@
+#+title: Qemu - System emulator
+#+author: Sachin
+#+TAGS: qemu ssh
+#+date: <2012-03-24>
+
+In this post I will create an Qemu image and work with it remotely
+using SSH.
+
+** Steps
+   :PROPERTIES:
+   :ID:       645e78cb-f031-41a7-af37-726f423f8c28
+   :END:
+   1. Download and install qemu from this [[http://wiki.qemu.org/Main_Page][link]].
+   2. Create a raw image, install [[http://releases.ubuntu.com/12.04/][Ubuntu 12.04]] from an ISO image.
+   3. Boot from an installed image and redirect port 22 to port 2200
+      of =localhost=.
+   4. Create snapshot of an image.
+   5. Booting snapshot image.
+
+** Download and install qemu
+   :PROPERTIES:
+   :ID:       feca8fc1-e76f-4eb9-a745-4c3e63cb136b
+   :END:
+
+   On Debian based distros(Ubuntu, Mint etc.) install qemu using the
+   command
+   #+BEGIN_SRC sh
+     sudo apt-get install qemu-system
+   #+END_SRC
+
+   This will install all qemu-system binaries for all major CPU
+   architectures. If you are having RPM based distros(like Redhat,
+   Fedora etc.), type
+   #+BEGIN_SRC sh
+     sudo yum install qemu
+   #+END_SRC
+
+   Optionally you can also compile qemu from the latest stable [[http://wiki.qemu.org/download/qemu-1.2.0-rc0.tar.bz2][source]].
+   Please refer the README for compilation instructions.
+
+** Create qemu image
+   :PROPERTIES:
+   :ID:       d5dfedc9-5c9d-4115-add1-508e8fcfc7ae
+   :END:
+
+   We need to first create a raw qemu image using the command
+   #+BEGIN_SRC sh
+     qemu-img create -f raw IMAGE_NAME.img SIZE
+   #+END_SRC
+
+   For example, if I want to create an image of 32 Gigs with the name
+   /ics-testing.img/, the command would be
+   #+BEGIN_SRC sh
+     qemu-img create -f raw ics-testing.img 32G
+   #+END_SRC
+
+   Once the image is created, we can use it as a raw disk image and
+   install an OS(Distro of your choice). In this case I will install
+   [[http://releases.ubuntu.com/12.04/ubuntu-12.04-desktop-amd64.iso][ubuntu 12.04]] (AMD64) from an ISO image. The syntax would be
+   #+BEGIN_SRC sh
+     qemu-system-ARCH -vnc none,ipv4 -hda IMAGE_NAME -cdrom /PATH/TO/ISO/FILE -m MEMORY -enable-kvm
+   #+END_SRC
+
+   For example, if my system arch is `x86-64` and my ISO path is
+   =/home/psachin/iso/ubuntu-12.04-desktop-amd64.iso= with memory as 4
+   Gigs. Also I want to enable kernel based virtualization.
+   #+BEGIN_SRC sh
+     qemu--system-x86_64 \
+	 -vnc none,ipv4 \
+	 -hda ics-testing.img \
+	 -cdrom /home/psachin/iso/ubuntu-12.04-desktop-amd64.iso \
+	 -m 4096 \
+	 -enable-kvm
+   #+END_SRC
+
+   this will pop up a qemu window. Proceed with the installation and
+   reboot the system.
+
+** Boot using qemu image
+   :PROPERTIES:
+   :ID:       1bda8b8c-b55b-4d42-ac52-7a11ce1b3b04
+   :END:
+
+   Once the installation is complete, boot the image by typing,
+   #+BEGIN_SRC sh
+     qemu-system-x86_64 \
+	 -vnc none,ipv4 \
+	 -hda ics-testing.img \
+	 -m 4096 -enable-kvm
+   #+END_SRC
+
+   Now configure the system, its package manager and user account.
+   Install Openssh-server and enable SSH login. If everything is
+   configured, restart using,
+   #+BEGIN_SRC bash
+     qemu-system-x86_64 \
+	 -vnc none,ipv4 \
+	 -hda ics-testing.img \
+	 -m 4096 \
+	 -enable-kvm \
+	 -redir tcp:2200::22
+   #+END_SRC
+
+   The =-redir tcp:2200::22= redirects TCP traffic on the host port
+   2200 to the guest machine (QEMU) port 22. This allows us to SSH to
+   the port 2200 on localhost.
+
+   =-vnc none= will disable VNC server.
+
+   - SSH to qemu
+
+     You can ssh into the running qemu system using a command
+     #+BEGIN_SRC sh
+       ssh -p PORT USER@IP-address or HOSTNAME
+     #+END_SRC
+
+     for example, if I want to connect to port 2200 of =localhost=
+     with username as =qemu-user=, then
+     #+BEGIN_SRC sh
+       ssh -p 2200 qemu-user@localhost
+     #+END_SRC
+
+     as port 2200 on =localhost= is open and is binded with port 22 of
+     qemu system, thus we used =-p 2200= flag.
+
+** Creating snapshots of an image(Optional)
+   :PROPERTIES:
+   :ID:       8586c8c8-02be-4c60-b8b6-a26c3b65a2a2
+   :END:
+
+   Now as the image is configured and working, we can also create a
+   snapshots of that image and work on it keeping an original image
+   intact.
+
+   Syntax:
+   #+BEGIN_SRC sh
+     qemu-img create -f qcow2 -b ORIGINAL_IMAGE_NAME SNAPSHOT_IMAGE_NAME
+   #+END_SRC
+
+   As my original image name was /ics-testing.img/, Let my snapshot
+   image name be /snapshot.img/. Type
+   #+BEGIN_SRC sh
+     qemu-img create -f qcow2 -b ics-testing.img snapshot.img
+   #+END_SRC
+
+   =-f= flag will specify image format. In this case it is =qcow2=
+   which is most versatile qemu-image format. Please refer man-pages
+   for more detail.
+
+** Booting snapshot image
+   :PROPERTIES:
+   :ID:       9efe12f1-693e-4774-9f7b-28906b224675
+   :END:
+
+   You can use the snapshot image using
+   #+BEGIN_SRC sh
+     qemu-system-x86_64 \
+	 -vnc none \
+	 -hda snapshot.img \
+	 -m 4096 -enable-kvm \
+	 -redir tcp:2200::22
+   #+END_SRC
+
+** Tips
+   :PROPERTIES:
+   :ID:       57c18da0-7fa8-4d0b-8d47-175e2e2aaa4b
+   :END:
+
+   a. You can also specify number of CPU cores using =-smp= flag. For
+   example, if you want to assign 4 cores of your physical system to
+   qemu, specify it as =-smp 4=. =smp= stands for
+   [[http://en.wikipedia.org/wiki/Symmetric_multiprocessing][Symmetric-multiprocessing]].
+
+   b. Don't you run qemu over the snapshot image, it will corrupt the
+   snapshot image.
+
+** Refs
+   :PROPERTIES:
+   :ID:       a9c323fe-c111-4c73-98b9-f2ea94c54713
+   :END:
+   1. [[http://wiki.qemu.org/Main_Page][Qemu]]
+   2. [[http://releases.ubuntu.com/12.04/][Ubuntu 12.04]]
+   3. [[http://wiki.qemu.org/Documentation/CreateSnapshot][Creating snapshots]]

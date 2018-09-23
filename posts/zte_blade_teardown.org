@@ -1,0 +1,63 @@
+#+title: ZTE Blade teardown
+#+author: Sachin
+#+date: <2014-04-19>
+
+In an attempt to unlock RAM from 256MB to 512MB I bricked my ZTE
+Blade. These are the final snaps before it died.
+[Here](http://www.modaco.com/topic/339048-guide-flashing-firmware-to-bladelibra-via-windows/)
+is the method I followed.
+
+** Snaps
+
+   #+CAPTION: Motherboard--when outer cover removed
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/1.jpg]]
+
+   #+CAPTION: Touch panel
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/3.jpg]]
+
+   #+CAPTION: Inner back cover(front view)
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/4.jpg]]
+
+   #+CAPTION: Inner back cover(rear view)** You can see speaker at the bottom.
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/5.jpg]]
+
+   #+CAPTION: Front cover which encloses touch panel(rear view)** You can see sensor circuitry at the top-left.
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/6.jpg]]
+
+   #+CAPTION: Front cover which encloses touch panel(front view).
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/7.jpg]]
+
+   #+CAPTION: Buttons.
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/8.jpg]]
+
+   #+CAPTION: Motherboard: A closer look.
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/9.jpg]]
+
+   #+CAPTION: Motherboard: A closer look(flip side).
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/10.jpg]]
+
+   #+CAPTION: Display.
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/11.jpg]]
+
+   #+CAPTION: Display with Android logo at boot time.
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/12.jpg]]
+
+   #+CAPTION: Display with IDEA provider logo. It doesn't go any further.
+   #+ATTR_HTML: :width 100% :height
+   [[file:images/posts/zte_blade_teardown/13.jpg]]
+
+Fortunately, I got another Blade with broken touch screen. I managed
+to replace the board[Figure 9]. It was an amazing experience and I got
+all the hardware working :). Out of excitement, I bricked the new
+hardware too :P but this time it was successfully [[http://www.modaco.com/topic/343587-guide-de-bricking-a-zte-blade/][de-bricked(method-5)]]

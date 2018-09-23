@@ -1,0 +1,148 @@
+#+title: Update SailfishOS
+#+date: <2016-11-04>
+#+keywords: jolla,intex,aqua,sailfish,pkcon,devel-su
+#+setupfile: ../org-templates/post.org
+
+Update [[https://sailfishos.org/][sailfishOS]] from 2.0.2.51 (Aurajoki) to 2.0.4.14 (Fiskarsinjoki)
+
+*(for Intex Aqua Fish, Model: l500d)*
+
+#+ATTR_HTML: :width 100% :height
+[[file:images/posts/sailfish/poster.png]]
+
+Latest preview build for SailfishOS - Fiskarsinjoki(2.0.4.14) is
+released and available for download. SailfishOS uses [[http://merproject.org/][Mer]] middleware,
+has [[https://kernel.org][Linux kernel]] and developed by [[https://jolla.com/][jolla]]. The latest release is not yet
+available on air but can be upgraded using developer mode.
+
+*** Enable remote SSH
+
+    With SailfishOS, debugging a phone is quite simple, one just needs
+    to enable **Developer mode** & **Remote connection** from
+    *Developer tools*. Provide the password for user *nemo*(Yes, the
+    default user is =nemo=) or generate password if you choose not to
+    enter password of your choice.(I never managed to ssh to
+    IP-address 192.168.2.15 even by setting similar network space)
+
+
+    #+CAPTION: Remote access
+    #+ATTR_HTML: :alt Remote access :title Remote access
+    #+ATTR_HTML: :width 70% :height
+    [[file:images/posts/sailfish/remote-access.png]]
+
+
+    #+BEGIN_SRC bash
+      psachin@nubia:$ ssh nemo@10.42.0.85
+      The authenticity of host '10.42.0.85 (10.42.0.85)' can't be established.
+      ED25519 key fingerprint is SHA256:oLCSaLDMyRlfBe4jZ/paFblizD5siujbCve7buatako.
+      ED25519 key fingerprint is MD5:73:37:37:37:37:37:37:37:37:37:37:85:37:37:7e:31.
+      Are you sure you want to continue connecting (yes/no)? yes
+      Warning: Permanently added '10.42.0.85' (ED25519) to the list of known hosts.
+      nemo@10.42.0.85's password:
+      Last login: Tue Nov  1 09:12:42 2016
+      NOTICE: Env value ignored HYBRIS_LD_LIBRARY_PATH=/usr/libexec/droid-hybris/system/lib:/vendor/lib:/system/lib
+      ,---
+      | SailfishOS 2.0.2.51 (Aurajoki) (armv7hl)
+      '---
+    #+END_SRC
+
+    Login as root using the command =devel-su=
+    #+BEGIN_SRC bash
+      [nemo@Sailfish ~]$ devel-su
+      Password:
+      [root@Sailfish nemo]#
+    #+END_SRC
+
+*** Update
+
+    Verify the current release by using the command =version=. Check
+    the latest release on [[https://en.wikipedia.org/wiki/Sailfish_OS][wiki]]. Say you want to update to latest
+    release(2.0.4.14, at the time when this post was published), set
+    the release version using command =ssu release VERSION=
+    #+BEGIN_SRC bash
+      ssu release 2.0.4.14
+      version --dup
+    #+END_SRC
+
+    This should take a while.
+
+*** Remove default package
+
+    To remove preinstall package like *gaana*, search by name using
+    the command =pkcon=(PackageKit Console client).
+    #+BEGIN_SRC bash
+      [root@Sailfish ~]# pkcon search name gaana
+      Searching by name
+      Waiting in queue
+      Starting
+      Refreshing software list
+      Querying
+      Installed sailfish-content-partnerspaces-intex-gaana-0.1.5-10.8.1.jolla.armv7hl	Gaana partner space application for Intex
+    #+END_SRC
+
+    Once the exact name of the package is found, go ahead and remove
+    the package using =pkcon remove PACKAGE_NAME=. Exclude version
+    number. =pkcon= should behave like any other package manager found
+    in various GNU/Linux distros.
+    #+BEGIN_SRC bash
+      [root@Sailfish ~]# pkcon remove sailfish-content-partnerspaces-intex-gaana
+      Removing
+      Waiting in queue
+      Starting
+      Removing packages
+      Resolving dependencies
+      Removing packages                               [================================================]
+      The following packages have to be removed:
+      feature-intex-0.1.5.1-10.7.6.jolla.noarch Feature package for
+      Intex content
+      sailfish-content-partnerspaces-intex-0.1.5-10.8.1.jolla.armv7hl
+      Partner space applications for Intex
+      sailfish-content-partnerspaces-intex-gaana-0.1.5-10.8.1.jolla.armv7hl
+      Gaana partner space application for Intex
+      sms-activation-intex-0.0.5-10.3.1.jolla.armv7hl Intex SMS
+      activation service
+      sms-activation-intex-conf-0.0.5-10.3.1.jolla.armv7hl
+      Environment configuration for sms-activation-intex Proceed
+      with changes? [N/y] y
+
+      Removing Waiting in queue Waiting for authentication Waiting in queue
+      Starting Removing packages Resolving dependencies Removing packages
+    #+END_SRC
+
+*** Verify & install package
+
+    Sometime you may want to check the integrity of an OS. In this
+    case the command =version --verify= will come handy as
+    demonstrated below.
+
+    #+CAPTION: Remote access
+    #+ATTR_HTML: :alt Remote access :title Remote access
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/sailfish/install_package.png]]
+
+*** Verify an update
+
+    After an upgrade, login to the device and verify few parameter as show
+    below.
+
+    #+CAPTION: Remote access: nemo user login
+    #+ATTR_HTML: :alt Remote access: nemo user login :title Remote access: nemo user login
+    #+ATTR_HTML: :width 100% :height
+    [[file:images/posts/sailfish/nemo-first-login.png]]
+
+    Finally here's a screenshot of **About product** screen showing latest
+    release and device info.
+
+    #+CAPTION: About product
+    #+ATTR_HTML: :alt About product :title About product
+    #+ATTR_HTML: :width 70% :height
+    [[file:images/posts/sailfish/about_product.png]]
+
+    I found SailfishOS much more comfortable to use. The best part is
+    it has very good user interface as compared to other mobile UI
+    like Android. Once you have an Jolla account, the device has
+    access to all package repositories. It has early access to latest
+    version and upgrade is quite simple. The device comes pre-rooted
+    with entire GNU/Linux OS and package-manager(=pkcon=). One can
+    install all Android apps either from Jolla store or using Google
+    Play store.

@@ -1,0 +1,118 @@
+#+title: Find bash function
+#+author: Sachin
+#+date: <2014-03-04>
+
+In this post I'll walk you through few commands which will help to
+find the location & definition of Bash functions.
+
+I have lot of custom Bash functions for every seldom and frequent
+tasks. Usually I like to store these functions in =~/.bashrc= file but
+when they grow in size and importance, I like to keep it in a separate
+Bash script and =source= this script from =~/.bashrc=. As these Bash
+scripts goes on increasing and so does the functions, it becomes
+tedious to locate these functions.
+
+Unlike =which= command, which is used to find a program file location,
+we can't use it to find Bash function location. But there is a way we
+can read the function definition and also find its location.
+
+** Read function definition
+
+=type= can be used to read function definition.
+#+BEGIN_SRC bash
+  type -a <FUNCTION-NAME>
+#+END_SRC
+
+For example, I have a function called =mcd= to create new directory
+and =cd= in to it. The following command will print the function
+definition
+#+BEGIN_SRC bash
+  type -a mcd
+#+END_SRC
+
+Output:
+#+BEGIN_SRC bash
+  # mcd is a function
+  mcd () {
+      if [ "$#" -eq 1 ]; then
+	  mkdir --parents "$1";
+	  cd "$1";
+      else
+	  echo "Usage: mcd <DIR_NAME>" > /dev/stderr;
+      fi
+  }
+#+END_SRC
+
+
+*** Update (2016-04-06 Wed)
+
+I you enable shell debug ON USING =set -e=, you can still read a
+function definition.
+#+BEGIN_SRC bash
+  set -e
+  which mcd
+#+END_SRC
+
+** Find function location in a file
+
+In the similar way =declare= can be used to locate the function.
+
+To locate the function, turn on shell debugging using
+#+BEGIN_SRC bash
+  shopt -s extdebug
+#+END_SRC
+
+and then
+#+BEGIN_SRC bash
+  declare -F <FUNCTION-NAME>
+#+END_SRC
+
+For example, to find =mcd='s location, type
+#+BEGIN_SRC bash
+  declare -F mcd
+#+END_SRC
+
+Output:
+#+BEGIN_SRC bash
+  mcd 51 /home/sachin/.bashrc
+#+END_SRC
+
+
+/51/ is the line number in file =~/.bashrc= where =mcd= is defined.
+
+Finally turn off shell debugging.
+#+BEGIN_SRC bash
+  shopt -u extdebug
+#+END_SRC
+
+** Custom function
+
+Its better to write a custom function(=whichf= in this case) using
+above commands.
+#+BEGIN_SRC bash
+  function whichf () {
+      if [ ${1} ]; then
+	  shopt -s extdebug
+	  declare -F ${1}
+	  shopt -u extdebug
+	  type -a ${1}
+      else
+	  echo "Error: Expected Function name as an argument!"
+      fi
+  }
+#+END_SRC
+
+Copy above function in =~/.bashrc= file and source the file using
+#+BEGIN_SRC bash
+  source ~/.bashrc
+#+END_SRC
+
+Now call this function by typing
+#+BEGIN_SRC bash
+  whichf <FUNCTION-NAME>
+#+END_SRC
+
+For example
+#+BEGIN_SRC bash
+  whichf mcd
+#+END_SRC

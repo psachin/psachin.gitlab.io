@@ -1,0 +1,42 @@
+#+title: Test tripleo-quickstart environment
+#+date: <2018-01-03>
+#+keywords: tripleo, quickstart, openstack
+#+setupfile: ../org-templates/post.org
+
+
+The [[http://psachin.github.io/blog/ooo-quickstart/][Last post]] explains how to setup tripleo-quickstart environment. In
+this post we will see how to test the environment by using [[https://docs.openstack.org/heat/latest/template_guide/hot_guide.html][heat
+template]].
+
+Below is the sample template that can be used to deploy a stack which
+will deploy an instance using cirros image.
+
+#+HTML: <html><head><script src="https://gist.github.com/psachin/85b89e125007bca0b4fc2d5bd2d19fa6.js"></script></head></html>
+
+Download the template using,
+#+BEGIN_SRC bash
+  wget https://gist.githubusercontent.com/psachin/85b89e125007bca0b4fc2d5bd2d19fa6/raw/test-stack.yml
+#+END_SRC
+
+Download and create glance image,
+#+BEGIN_SRC bash
+  curl http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img -o cirros-0.3.5-x86_64-disk.img
+  openstack image create --public --container-format bare --file cirros-0.3.5-x86_64-disk.img cirros
+#+END_SRC
+
+Finally create a stack using,
+#+BEGIN_SRC bash
+  openstack stack create --template test-stack.yml test-stack
+#+END_SRC
+
+Once stack creation is completed, get IP address of an instance using
+comment =openstack server list= (should be in range 192.168.24.0/24)
+as show in example below,
+#+BEGIN_SRC bash
+  [stack@undercloud ]$ openstack server list
+  +--------------------------------------+-----------------------------------------------+--------+------------------------------------+------------+
+  | ID                                   | Name                                          | Status | Networks                           | Image Name |
+  +--------------------------------------+-----------------------------------------------+--------+------------------------------------+------------+
+  | c14904d2-bc35-48a3-bc75-7b778eb02acd | test-stack-test_instance-1-adgli2qymnzm       | ACTIVE | int-green=30.0.0.8, 192.168.24.110 | cirros     |
+  +--------------------------------------+-----------------------------------------------+--------+------------------------------------+------------+
+#+END_SRC

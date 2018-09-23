@@ -16,6 +16,8 @@
 
 (require 'org)
 (require 'ox-publish)
+(require 'htmlize)
+(require 'ox-rss)
 
 
 ;; setting to nil, avoids "Author: x" at the bottom
@@ -30,14 +32,17 @@
       org-html-metadata-timestamp-format "%Y-%m-%d"
       org-html-checkbox-type 'html
       org-html-html5-fancy t
-      org-html-validation-link nil
-      org-html-doctype "html5")
+      org-html-validation-link t
+      org-html-doctype "html5"
+      org-html-htmlize-output-type 'css
+      org-src-fontify-natively nil)
 
 (defvar psachin-website-html-head
-  "<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+  "<link rel='icon' type='image/x-icon' href='/images/favicon.jpg'/>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' type='text/css; href='http://www.pirilampo.org/styles/bigblow/css/bigblow.css'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <script src='https://code.jquery.com/jquery-3.0.0.js'></script>
 <script src='https://code.jquery.com/jquery-migrate-3.0.1.js'></script>
@@ -52,11 +57,13 @@
 
 <div class='nav'>
 <ul>
-<li><a href='/'>Home</a>.</li>
+<li><a href='/'>Blog</a>.</li>
 <li><a href='http://gitlab.com/psachin'>GitLab</a>.</li>
-<li><a href='https://plus.google.com/u/0/+Sachinp'>Google Plus</a>.</li>
+<li><a href='http://github.com/psachin'>GitHub</a>.</li>
+<li><a href='https://www.reddit.com/user/psachin'>Reddit</a>.</li>
+<li><a href='https://plus.google.com/u/0/+Sachinp'>G+</a>.</li>
 <li><a href='https://youtube.com/user/iclcoolsterU'>YouTube</a>.</li>
-<li><a href='/about/about.html'>About</a>.</li>
+<li><a href='/about/'>About</a>.</li>
 <li><a href='/index.xml'>RSS feed</a></li>
 </ul>
 </div>")
@@ -80,10 +87,10 @@
 
 (defvar psachin-website-html-postamble
   "<div class='footer'>
-Copyright © 2012-2018 Sachin Patil. <br>
-Adapted from https://nicolas.petton.f r<br>
-Last updated: %C. <br>
-Built with %c.
+Copyright © 2012-2018 <a href='mailto:iclcoolster@gmail.com'>Sachin Patil</a>. <br>
+GnuPG fingerprint: 28C5 A1F3 221B 949D B651 FC47 E5F9 CE48 62AA 06E2 <br>
+Adapted from <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+Last updated on %C using %c
 </div>")
 
 (defvar site-attachments
@@ -99,7 +106,7 @@ STYLE:
 PROJECT: `posts in this case."
   (cond ((not (directory-name-p entry))
          (format "*[[file:%s][%s]]*
-                  #+HTML: <p class='pubdate'>by %s, %s</p>"
+                  #+HTML: <p class='pubdate'>by %s on %s</p>"
 		 entry
 		 (org-publish-find-title entry project)
 		 (car (org-publish-find-property entry :author project))
@@ -119,7 +126,7 @@ PROJECT: `posts in this case."
          :exclude ,(regexp-opt '("README.org" "draft"))
          :auto-sitemap t
          :sitemap-filename "index.org"
-	 :sitemap-title "Sachin's homepage"
+	 :sitemap-title "Posts"
 	 :sitemap-file-entry-format "%d *%t*"
 	 :sitemap-format-entry psachin-org-sitemap-format-entry
          :sitemap-style list
@@ -128,10 +135,10 @@ PROJECT: `posts in this case."
 	 :html-preamble ,psachin-website-html-preamble
 	 :html-postamble ,psachin-website-html-postamble)
        ("about"
-        :base-directory "."
+        :base-directory "about"
         :base-extension "org"
 	:exclude ,(regexp-opt '("README.org" "draft"))
-	:index-filename "about.org"
+	:index-filename "index.org"
         :recursive nil
         :publishing-function org-html-publish-to-html
         :publishing-directory "./public/about"
@@ -153,10 +160,16 @@ PROJECT: `posts in this case."
        ("rss"
 	:base-directory "posts"
         :base-extension "org"
-        :publishing-function org-rss-publish-to-rss
-        :publishing-directory "./public"
-	:html-link-home "https://psachin.gitlab.io"
-	:html-link-use-abs-url t)
+	:html-link-home "https://psachin.gitlab.io/"
+	:rss-link-home "https://psachin.gitlab.io/"
+	:html-link-use-abs-url t
+	:rss-extension "xml"
+	:publishing-directory "./public"
+	:publishing-function (org-rss-publish-to-rss)
+	:section-number nil
+	:exclude ".*"
+	:include ("index.org")
+	:table-of-contents nil)
        ("all" :components ("posts" "about" "css" "images" "rss"))))
 
 (provide 'publish)

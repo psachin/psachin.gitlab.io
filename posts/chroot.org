@@ -1,0 +1,97 @@
+#+title: Working with chroot environment
+#+author: Sachin
+#+date: <2013-02-25>
+
+This post covers what is =chroot= and why to use it? It also provides
+steps to create =chroot= environment.
+
+As its =man page= says, /"it is used to run commands or an interactive
+shell with special root directory"/. It provides an environment to
+test new packages in a secured way without touching an actual system.
+It can be called as a virtual system with isolated root(/)
+
+** Why chroot environment ?
+   :PROPERTIES:
+   :ID:       c7dc7958-7a0b-4bc6-9310-7d8313eee05c
+   :END:
+
+Suppose I have a new package to test and compile the package with many
+dependencies. Also I may have to compile each and every dependent
+package till my requirement for the test-package is met. This is a
+tedious job and the process can make my development machine highly
+unstable or sometime unusable, this is certainly not I want. The best
+way I can deal with this is to create a virtual machine, I can use
+[[http://wiki.qemu.org/Main_Page][Qemu]] or [[https://www.virtualbox.org/][Virtual Box]] for that or I can just make a =chroot= environment
+in a separate directory and start compiling the package. =chroot=
+environments are also used to host web-servers, so if at all the
+web-server is compromised, not all the services are hampered and the
+system is still safe.
+
+Another advantage of having a =chroot= environment is that the
+file-system is totally isolated from the physical host. =chroot= has a
+separate file-system inside the file-system, the difference is, it
+uses a newly created root(/) as it's root directory.
+
+** Creating a chroot environment
+   :PROPERTIES:
+   :ID:       96c62cc9-5fa0-4035-88a6-81384a35f65e
+   :END:
+
+In order to create a =chroot= environment, we need to create a
+file-system. The file hierarchy within the directory is same as any
+other Linux file-system such as =/root=, =/usr=, =/etc=, =/bin=,
+=/opt= etc. We can make a Debian chroot environment using
+=debootstrap= or =rootstock=, both are available for Ubuntu systems.
+In this post I will use debootstrap to create a chroot environment.
+
+Install **debootstrap** using,
+#+BEGIN_SRC sh
+  sudo apt-get install debootstrap
+#+END_SRC
+
+We can specify a system architecture, a suite(release name) and a
+mirror to download from in the =debootstrap= parameter.
+
+The syntax is as follows,
+#+BEGIN_SRC sh
+  debootstrap --arch <ARCHITECTURE> <SUITE> <YOUR-ROOT-DIRECTORY> <MIRROR>
+#+END_SRC
+
+for example, if I want arch to be =i686= for Ubuntu 12.04(precise) and
+my root directory is =precise-chroot/= with mirror of the content on
+<http://archive.ubuntu.com/ubuntu>, then create directory for chroot,
+#+BEGIN_SRC sh
+  mkdir precise-chroot
+#+END_SRC
+
+and create a chroot environment using debootstrap,
+#+BEGIN_SRC sh
+  debootstrap --arch i686 precise precise-chroot http://archive.ubuntu.com/ubuntu
+#+END_SRC
+
+this will create a chroot environment for Ubuntu 12.04, from the
+mirror.
+
+** chroot'ing
+   :PROPERTIES:
+   :ID:       3d74591f-eae5-443c-a086-b07454e37b05
+   :END:
+
+Once all the file are downloaded, we can chroot into
+=precise-chroot/= directory using,
+#+BEGIN_SRC sh
+  sudo chroot precise-chroot /bin/bash
+#+END_SRC
+
+where =precise-chroot= as the root directory, and the shell as
+=/bin/bash=. You will be landed on the root prompt. Now you can setup
+the package manager and update it. This will work same as any other
+Linux environment.
+
+** References
+   :PROPERTIES:
+   :ID:       ed57c1a6-0170-4134-a7ab-25f298b430ad
+   :END:
+   - Visit the manual page - =man chroot=
+   - Guide to [[http://technoreview.net/2011/10/using-rootstock.html][rootstock]]
+   - Why FreeBSD prefers [[http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/jails-intro.html][jail]] instead of `chroot`?

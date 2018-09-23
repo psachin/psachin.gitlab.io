@@ -41,9 +41,6 @@ body h1 {
   font-size: 42px;
   margin-top: 40px;
 }
-body h1.title {
-  display: inline;
-}
 body h2 {
   margin-top: 60px;
   position: relative;
@@ -86,7 +83,6 @@ body li {
 body img {
   border: 1px solid #ccc;
   height: auto;
-  max-width: 70%;
 }
 @media (max-width: 800px) {
   body img {

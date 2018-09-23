@@ -1,0 +1,85 @@
+#+title: Python virtualenv
+#+author: Sachin
+#+date: <2014-03-04>
+
+=setv=: /Lightweight Python virtual environment manager/
+
+
+/Update [March 30, 2016]: I created [[https://github.com/psachin/setV][setV]] as a separate project with
+installer and readme. This post is quite old./
+
+I like to have a separate [[http://www.virtualenv.org/en/latest/][virtualenv]] for each python project. This
+ends up having virtual-environments for each project that I often find
+difficult to manage. All my virtual-environments resides in
+=~/virtualenvs= directory but to activate/deactivate a virtual
+environment every time is a tedious job.
+
+An easy solution to this is to install [[http://virtualenvwrapper.readthedocs.org/en/latest/index.html][virtualenvwrapper]], but then I
+have run commands like =workon= & =mkvirtualenv=. I don't want to do
+that. Can I manage virtual environment using single command?. Luckily
+I have Bash function I find very handy. It lists all available virtual
+environments and can switch the environment as needed.
+
+** Usage:
+   - List all virtual environment
+     #+BEGIN_SRC bash
+       setv [TAB] [TAB]
+       # or
+       setv -l
+     #+END_SRC
+
+   - Switch virtual environment
+     #+BEGIN_SRC bash
+       setv <VIRTUAL-ENVIRONMENT-NAME>
+     #+END_SRC
+
+     for example:
+     #+BEGIN_SRC bash
+       setv rango
+     #+END_SRC
+
+   - Create new virtual environment
+     #+BEGIN_SRC bash
+       setv -n <NEW-VIRTUAL-ENVIRONMENT-NAME>
+     #+END_SRC
+
+     for example:
+     #+BEGIN_SRC bash
+       setv -n foobar
+     #+END_SRC
+
+   - Delete existing virtual environment
+     #+BEGIN_SRC bash
+       setv -d <EXISTING-VIRTUAL-ENVIRONMENT-NAME>
+     #+END_SRC
+
+     for example:
+     #+BEGIN_SRC bash
+       setv -d foobar
+     #+END_SRC
+
+   - Deactivate virtual environment
+     #+BEGIN_SRC bash
+       deactivate
+     #+END_SRC
+
+** Download
+   The script is available [[https://raw.github.com/psachin/bash_scripts/master/virtual.sh][here]] and can be downloaded via =wget=
+   #+BEGIN_SRC bash
+     wget https://raw.github.com/psachin/bash_scripts/master/virtual.sh
+   #+END_SRC
+
+** Install
+   - Set =VIRTUAL_DIR_PATH= value to your virtual environments
+     directory-path in =virtual.sh= file. By default it is set to
+     =~/virtualenvs/=
+
+   - Create a directory to hold all virtual environments
+     #+BEGIN_SRC bash
+       mkdir ~/virtualenvs
+     #+END_SRC
+
+   - Added this line to your =.bashrc= or any local rc script.
+     #+BEGIN_SRC bash
+       source /path/to/virtual.sh
+     #+END_SRC

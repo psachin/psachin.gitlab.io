@@ -1,0 +1,102 @@
+#+title: pdftk
+#+author: Sachin
+#+date: <2012-08-26>
+
+=pdftk= can be an excellent tool for manupilating PDFs if you know
+some handy commands
+
+** Merge pages
+   :PROPERTIES:
+   :ID:       4728456a-9bdd-4abf-ac5f-700814f2a201
+   :END:
+
+   Suppose I have some PDF pages like
+   #+BEGIN_SRC sh
+     front.pdf     toc.pdf
+     auth_colo.pdf part1.pdf
+     chap01.pdf    chap02.pdf
+     part2.pdf     chap03.pdf
+     chap04.pdf    chap05.pdf
+     part3.pdf     app_A.pdf
+     app_B.pdf     index.pdf
+   #+END_SRC
+
+   If I want to merge all the pdf's into a single book(file), my
+   command would be
+   #+BEGIN_SRC sh
+     pdftk front.pdf toc.pdf auth_colo.pdf part1.pdf chap01.pdf...index.pdf cat output my_full_book.pdf
+   #+END_SRC
+
+   this will create a pdf file in the same order specified. *\*.pdf*
+   may also work if I don't care about page ordering. Remember that
+   =my_full_book.pdf= is output file name and =cat output= are output
+   flags.
+
+** Removing a page
+   :PROPERTIES:
+   :ID:       4c85bf46-3af5-4467-8d83-7bdf776a2714
+   :END:
+
+   Suppose I want to remove page number 3 then my command would be
+   #+BEGIN_SRC sh
+     pdftk my_full_book.pdf cat 1-2 4-end output full_book_with_page2-removed.pdf
+   #+END_SRC
+
+   In the above example, I skipped page number(s) which I want to
+   remove, in this case, page-3. The above command means, I want pages
+   to be included from 1 to 2, I don't want page number 3, so **skip
+   it**, then start from page 4 till the **end**.
+
+   The syntax goes like this
+   #+BEGIN_SRC sh
+     pdftk PDF_FILE cat FROM-TO FROM-end output NEW_PDF_FILE_NAME
+   #+END_SRC
+
+** Rotating pages
+   :PROPERTIES:
+   :ID:       c4158749-508c-4585-82c6-4866a8989957
+   :END:
+
+   If I want to rotate the first page at 90 degrees right, then
+   #+BEGIN_SRC sh
+     pdftk my_full_book.pdf cat 1R 2-end output page1_turned_right.pdf
+   #+END_SRC
+
+   In the same way if I want to rotate all odd pages from range 1 to
+   25 to 180 degrees, then
+   #+BEGIN_SRC sh
+     pdftk my_full_book.pdf cat 1-25oddD 26-end output odd_pages_down_book.pdf
+   #+END_SRC
+
+** Extract specific page(s)
+   :PROPERTIES:
+   :ID:       c86e1a25-4d13-459b-bfa7-3dfb0469c301
+   :END:
+
+   Exact page 4 & 5
+   #+BEGIN_SRC sh
+     pdftk lkn.pdf cat 4 5 output page4and5.pdf
+   #+END_SRC
+
+   Extract page 9
+   #+BEGIN_SRC sh
+     pdftk lkn.pdf cat 9 output page9.pdf
+   #+END_SRC
+
+   Split pages as individual file
+   #+BEGIN_SRC sh
+     pdftk page4and5.pdf burst
+   #+END_SRC
+
+   Output file will be =pg_0001.pdf=, =pg_0002.pdf=...
+
+** Reference
+   :PROPERTIES:
+   :ID:       ac358e63-370d-4aa5-b3b7-a12d58ec019e
+   :END:
+
+   For more info on =pdftk=, visit its manual pages by typing
+
+   #+BEGIN_SRC sh
+     man pdftk
+   #+END_SRC

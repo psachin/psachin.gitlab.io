@@ -1,0 +1,14 @@
+#+title: My posts on GNU Emacs
+#+author: Sachin
+#+date: <2018-04-10>
+
+For those who uses [[https://www.gnu.org/software/emacs/][GNU Emacs]], I encourage to read my articles on GNU
+Emacs appeared in [[https://opensource.com/][opensource.com]]
+
+1. [[https://opensource.com/life/16/2/intro-to-emacs][Getting started with Emacs text editor]]: This post is an
+   introduction to GNU Emacs, it's various use cases and cool
+   extensions.
+
+2. [[https://opensource.com/article/18/4/how-create-latex-documents-emacs][How to create LaTeX documents with Emacs]]: This tutorial takes you
+   through the process of creating a document in LaTeX, a powerful
+   open source typesetting system, using GNU Emacs.
