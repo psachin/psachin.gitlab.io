@@ -42,7 +42,9 @@
 
 ** @Work
 
-   For work, I have Lenovo Thinkpad T440p running [[https://getfedora.org/][Fedora]].
+   For work, I have Lenovo Thinkpad T440p running [[https://getfedora.org/][Fedora]]. I work on
+   [[https://www.redhat.com/en/technologies/management/insights][Red Hat Insights]]. To know more about Red Hat Insights watch this
+   introductory [[https://www.youtube.com/watch?v=MfRnKe-xxLM][YouTube video]].
 
 ** Tools I use
 
@@ -76,15 +78,16 @@
    [[file:../../images/about/Anonymous-pen-pencil-small.png]]
 
    For raw/old posts please visit [[https://github.com/psachin/blog-posts][blog-posts]]. Most of them are written
-   in [[http://orgmode.org/][org-mode]]. I now use [[https://jekyllrb.com/][jekyll]] to publish my blogs(Source [[https://github.com/psachin/psachin.github.io][here]]).
-   Jekyll uses markdown which I don't like much. +I miss org-mode to
+   in [[http://orgmode.org/][org-mode]]. +I now use [[https://jekyllrb.com/][jekyll]] to publish my blogs(Source [[https://github.com/psachin/psachin.github.io][here]]).+
+   +Jekyll uses markdown which I don't like much. I miss org-mode to
    post blogs.+ This website is [[https://gitlab.com/psachin/psachin.gitlab.io][entirely published]] using org-mode.
 
-** Presentations/Slides
+** Talks/Presentations/Slides
 
    All my presentation slides are pushed to
-   [[https://github.com/psachin/slides][https://github.com/psachin/slides]]. With few exceptions(Online):
+   [[https://gitlab.com/psachin/slides][https://gitlab.com/psachin/slides]]. With few exceptions(Online):
 
+   - Freenode #live 2018: [[https://www.youtube.com/watch?v=FOZ2KZpl4OM][GNU Emacs for All]] [[https://gitlab.com/psachin/psachin.gitlab.io/blob/master/slides/gnu_emacs_for_all/index.org][(Org file)]]
    - Red Hat forum: [[http://redhat.slides.com/psachin/rh-forum-2016][2016]], [[https://github.com/psachin/slides/blob/master/RH-forum/RedHatCloudForms-2017-Sachin.pdf][2017]]
    - [[http://psachin.github.io/.emacs.d/][GNU Hackers Meeting-2016]]: Manage GNU Emacs configuration using
      [[http://orgmode.org/worg/org-contrib/babel/intro.html][literate programming]].
@@ -115,11 +118,11 @@
    #+ATTR_HTML: :class center no-border
    [[file:../../images/about/skogskanten-300px.png]]
 
-*** IRC: psachin@{RedHat, freenode, OFTC, GIMPNet}
+   - IRC: psachin@{RedHat, freenode, OFTC, GIMPNet}
+   - [[mailto:iclcoolster@gmail.com][Email]]
 
 ** Social
-
-   [[http://www.fsf.org/fb][Mark Zuckerberg is TIME Magazine's Person of the Year? Where's the "dislike" button?]]
+   You won't find me on Twitter, Whatsapp, [[https://www.fsf.org/facebook][Facebook]] & Linkedin.
 
    #+ATTR_HTML: :class center no-border
    http://static.fsf.org/nosvn/no-facebook-me.png

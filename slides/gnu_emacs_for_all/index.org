@@ -1,0 +1,166 @@
+#+REVEAL_THEME: moon
+#+REVEAL_TRANS: linear
+#+REVEAL_SPEED: default
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_TITLE_SLIDE_BACKGROUND:
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:t
+#+OPTIONS: num:nil toc:nil
+#+OPTIONS: timestamp:nil, email:nil
+#+LANGUAGE: en
+#+REVEAL_HLEVEL: 2
+
+#+Title: GNU Emacs for all
+#+Author: Sachin (@psachin)
+#+Email: psachin@redhat.com
+#+Date: [[http://freenode.live][Freenode #live 2018]]
+
+
+* IRC
+** ERC config: User configuration
+   #+BEGIN_SRC emacs-lisp -n
+   (setq erc-user-full-name user-full-name
+	   erc-nick user-login-name
+	   erc-away-nickname (concat erc-nick "|away")
+	   erc-keywords (quote("training" "session" "swift" "emacs"))
+	   erc-current-nick-highlight-type 'all
+	   erc-notify-list erc-pals
+	   erc-autojoin-enable t
+	   erc-autojoin-channels-alist
+   #+END_SRC
+
+** ERC config: Channels
+   #+BEGIN_SRC emacs-lisp -n
+     (quote
+      (("oftc" "#tor" "#kernelnewbies" "#kernel-outreachy")
+       ("freenode.net" "#emacs" "#emacs-beginners" "#linuxjournal" "#live")
+       ("GIMPNet" "#outreachy")))
+   #+END_SRC
+
+** ERC config: Modules
+   #+BEGIN_SRC emacs-lisp -n
+     erc-modules
+     (quote
+      (autojoin smiley notify))
+   #+END_SRC
+
+** ERC config: Logging
+   #+BEGIN_SRC emacs-lisp -n
+     ;; Logging
+     erc-enable-logging t
+     erc-log-mode t
+     erc-log-channels-directory "~/.erc/logs/"
+     ;; Timestamp position
+     erc-insert-timestamp-function 'erc-insert-timestamp-left
+     ;; Show channel name in the notification.
+     ;; Please apply: https://gist.github.com/psachin/f07c0741d0de4f2cf\
+     ;; 914eebbd45bddfc
+     erc-notifications-show-channel t
+     ;; Turn off linum for ERC buffer
+     (add-hook 'erc-mode-hook 'psachin/turn-off-linum)
+   #+END_SRC
+
+** ERC config: Start server
+   #+BEGIN_SRC emacs-lisp -n
+     (defun erc-start()
+       "Start ERC."
+       (interactive)
+       (erc :server "irc.freenode.net")
+       (erc :server "irc.oftc.net"))
+   #+END_SRC
+
+* Documents
+  - LaTeX document
+  - Image
+  - Table
+  - Source code
+  - Flow diagram(ditaa)
+
+* Trello
+  #+ATTR_HTML: :width 50% :height
+  [[../../images/slides/gnu_emacs_for_all/trello-logo-blue.svg]]
+** org-trello
+** Setup key and token
+   #+BEGIN_SRC emacs-lisp -n
+     ;; ~/.emacs.d/.trello/username.el
+     (setq org-trello-consumer-key "abc..."
+	   org-trello-access-token "def...")
+   #+END_SRC
+
+   http://org-trello.github.io/trello-setup.html
+
+** Connect to the board
+   #+BEGIN_SRC emacs-lisp -n
+      (use-package org-trello
+	:ensure t
+	:config
+	(custom-set-variables '(org-trello-files
+				'("~/trello/myboard.org"))))
+   #+END_SRC
+* Presentation
+  #+ATTR_HTML: :width 100% :height
+  [[../../images/slides/gnu_emacs_for_all/presentation.svg]]
+** LaTeX Beamer
+   [[https://opensource.com/article/18/4/how-create-latex-documents-emacs][how-create-latex-documents-emacs]]
+
+** reveal.js
+   - https://github.com/yjwen/org-reveal
+   - [[https://opensource.com/article/18/2/how-create-slides-emacs-org-mode-and-revealjs][How to create slides with Emacs Org mode and Reveal.js]]
+** org-tree-slide
+   https://github.com/takaxp/org-tree-slide
+* Version control
+** magit
+   https://magit.vc/
+
+** git-timemachine
+   https://gitlab.com/pidu/git-timemachine
+* Agenda
+** org-agenda
+   #+BEGIN_SRC emacs-lisp -n
+     (setq org-agenda-files '("~/agenda/work/work.org"
+			      "~/agenda/todo/read.org"
+			      "~/agenda/todo/todo.org"))
+
+     (setq org-capture-templates
+     '(("t" "Todo" entry
+	      (file+headline "~/agenda/todo/todo.org" "Tasks")
+	      "* TODO %i%?\n %U\n %a")
+	     ("n" "Notes" entry
+	      (file+headline "~/agenda/notes.org" "Notes")
+	      "* %A%?\n %U")
+	     ("i" "Insights" entry
+	      (file+headline "~/agenda/work/work.org" "Insights")
+	      "* %u%?")))
+   #+END_SRC
+** Orgmode for GTD
+   https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html
+* System
+** Terminal
+** Man pages
+** File browser
+** grep
+* Blogging
+** [[https://orgmode.org/worg/org-tutorials/org-jekyll.html][org-jekyll]]
+** org-publish
+   #+BEGIN_SRC emacs-lisp -n
+     (require 'ox-publish)
+     (setq org-publish-project-alist
+	   '(
+
+	     ;; ... add all the components here (see below)...
+
+	     ))
+   #+END_SRC
+   - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][org-publish-html-tutorial]]
+   - https://gitlab.com/psachin/psachin.gitlab.io
+* Games
+* Programming?
+  - Support to all major programming languages
+  - Syntax coloring etc.
+* Questions
+* Thank you
+
+  https://psachin.gitlab.io
+
+  [[mailto:psachin@redhat.com][psachin@redhat.com]]
+
+  Made with Love, [[https://www.gnu.org/software/emacs/][GNU Emacs]] & [[https://orgmode.org/][orgmode]]

@@ -13,12 +13,14 @@
 (package-refresh-contents)
 (package-install 'htmlize)
 (package-install 'org-plus-contrib)
+(package-install 'ox-reveal)
 
 (require 'org)
 (require 'ox-publish)
 (require 'htmlize)
+(require 'ox-html)
 (require 'ox-rss)
-
+(require 'ox-reveal)
 
 ;; setting to nil, avoids "Author: x" at the bottom
 (setq org-export-with-section-numbers nil
@@ -34,19 +36,17 @@
       org-html-html5-fancy t
       org-html-validation-link t
       org-html-doctype "html5"
-      org-html-htmlize-output-type 'css
-      org-src-fontify-natively nil)
+      org-html-htmlize-output-type 'inline-css
+      org-src-fontify-natively t)
 
 (defvar psachin-website-html-head
   "<link rel='icon' type='image/x-icon' href='/images/favicon.jpg'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
-<link rel='stylesheet' type='text/css; href='http://www.pirilampo.org/styles/bigblow/css/bigblow.css'/>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
 <script src='https://code.jquery.com/jquery-3.0.0.js'></script>
-<script src='https://code.jquery.com/jquery-migrate-3.0.1.js'></script>
-<link href='https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>")
+<script src='https://code.jquery.com/jquery-migrate-3.0.1.js'></script>")
 
 (defvar psachin-website-html-preamble
   "<div class='intro'>
@@ -145,6 +145,14 @@ PROJECT: `posts in this case."
 	:html-head ,psachin-website-html-head
 	:html-preamble ,psachin-website-html-preamble
 	:html-postamble ,psachin-website-html-postamble)
+       ("slides"
+        :base-directory "slides"
+        :base-extension "org"
+	:exclude ,(regexp-opt '("README.org" "draft"))
+	:index-filename "index.org"
+        :recursive t
+        :publishing-function org-reveal-publish-to-reveal
+        :publishing-directory "./public/slides/")
        ("css"
         :base-directory "./css"
         :base-extension "css"
@@ -170,7 +178,7 @@ PROJECT: `posts in this case."
 	:exclude ".*"
 	:include ("index.org")
 	:table-of-contents nil)
-       ("all" :components ("posts" "about" "css" "images" "rss"))))
+       ("all" :components ("posts" "slides" "about" "css" "images" "rss"))))
 
 (provide 'publish)
 ;;; publish.el ends here
